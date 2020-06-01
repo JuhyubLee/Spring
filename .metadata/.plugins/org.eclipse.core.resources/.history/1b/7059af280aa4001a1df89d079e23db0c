@@ -1,0 +1,6 @@
+package spring.jh.myapp.hr.dao;
+
+@Repository
+public class EmpRepository {
+
+}

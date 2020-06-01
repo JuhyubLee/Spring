@@ -1,0 +1,9 @@
+package spring.jh.myapp.hr.dao;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmpRepository implements IEmpRepository {
+
+	return emp;
+}

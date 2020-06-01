@@ -1,0 +1,27 @@
+package spring.jh.myapp.hr.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import spring.jh.myapp.hr.model.EmpVO;
+
+@Repository
+public class EmpRepository implements IEmpRepository {
+
+@Autowired
+JdbcTemplate jdbcTemplate;
+
+private class EmpMapper implements RowMapper<EmpVO>{
+public EmpVO mapRow(ResultSet rs, int count) throws SQLException{
+	EmpVO emp = new EmpVO();
+	emp.setEmployeeId(rs.getInt("employee_id"));
+	return emp;
+}
+}
+	
+}

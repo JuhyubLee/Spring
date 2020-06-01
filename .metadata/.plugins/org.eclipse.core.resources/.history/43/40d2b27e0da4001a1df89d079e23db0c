@@ -1,0 +1,6 @@
+package spring.jh.myapp.hr.dao;
+
+@Service
+public class EmpService {
+
+}

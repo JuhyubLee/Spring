@@ -27,7 +27,7 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
-		<!-- String JDBC -->
+		<!-- Spring JDBC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -52,7 +52,12 @@
 			<version>19.3.0.0</version>
 		</dependency>
 		
-
+		<!-- Log4jdbc -->
+		<dependency>
+		<groupId>com.googlecode.log4jdbc</groupId>
+		<artifactId>log4jdbc</artifactId>
+		<version>1.2</version>
+		</dependency>
 
 		<!-- AspectJ -->
 		<dependency>

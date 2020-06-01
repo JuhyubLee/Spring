@@ -1,0 +1,8 @@
+package spring.jh.myapp.hr.dao;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmpService implements IEmpService{
+
+}

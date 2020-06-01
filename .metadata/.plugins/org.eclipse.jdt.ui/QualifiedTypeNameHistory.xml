@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.EmpVO"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="spring.study.myapp.service.HomeService"/>
-<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="spring.study.myapp.dao.HomeRepo"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.annotation.Aspect"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.JoinPoint"/>
@@ -18,4 +12,17 @@
 <fullyQualifiedTypeName name="org.aspectj.lang.annotation.Pointcut"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.ProceedingJoinPoint"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.annotation.Around"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+<fullyQualifiedTypeName name="org.springframework.jdbc.core.JdbcTemplate"/>
+<fullyQualifiedTypeName name="org.springframework.jdbc.core.RowMapper"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.EmpVO"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="spring.jh.myapp.hr.dao.IEmpService"/>
+<fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
+<fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
 </qualifiedTypeNameHistroy>

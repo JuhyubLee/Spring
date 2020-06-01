@@ -1,34 +1,50 @@
 package spring.jh.myapp.util;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
 public class TimeTracer {
-
-	@Around(value="within(spring..IHelloService+)")
-	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable {
+	
+	@Pointcut(value="execution(* spring..*.*(..))")
+	private void FirstPointcut() {}
+	
+	@Pointcut(value="execution(* spring..*.*(..))")
+	private void LastPointcut() {}
+	
+	
+	
+	
+	
+	@Before("FirstPointcut()")
+	public void beforeLog(JoinPoint joinPoint) throws NoSuchMethodException, SecurityException {
+		Signature s = joinPoint.getSignature();
+		System.out.println("클래스: "+s.getDeclaringTypeName()+", 메서드: "+s.getName()+" 시작");
+	}
+	
+	@AfterReturning("LastPointcut()")
+	public void afterLog(JoinPoint joinPoint) {
+		Signature s = joinPoint.getSignature();
+		System.out.println("클래스: "+s.getDeclaringTypeName()+", 메서드: "+s.getName()+" 종료");
+	}
+	@Around(value="within(spring.jh.myapp.hello.service.*)")
+	public Object nowTime(ProceedingJoinPoint joinPoint) throws Throwable{
 		Signature s = joinPoint.getSignature();
 		String methodName = s.getName();
-		System.out.println("[Log]Before: " + methodName +
-				" time check start");
 		long startTime = System.nanoTime();
 		Object result = null;
-		try {
-			result = joinPoint.proceed();
-		}catch(Exception e) {
-			System.out.println("[Log]Exception: " +e.getMessage());
-		}finally {
-			System.out.println("[Log]Finally: "+methodName+" End.");
-		}
+		result = joinPoint.proceed();
 		long endTime = System.nanoTime();
-		System.out.println("[Log]After: "+methodName +" time check end");
 		System.out.println("[Log]"+ methodName +
-				" Processing time is "+(endTime+startTime)+"ns");
+				"Processing time is "+(endTime-startTime)+"ns");
 		return result;
 	}
 }
