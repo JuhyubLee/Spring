@@ -1,0 +1,10 @@
+package spring.study.myapp.service;
+
+public class HomeService {
+
+	public void Juhyub() {
+		System.out.println("내 이름은 이주협");
+	}
+	
+
+}

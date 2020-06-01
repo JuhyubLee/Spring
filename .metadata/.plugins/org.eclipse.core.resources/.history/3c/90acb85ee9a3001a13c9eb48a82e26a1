@@ -1,0 +1,21 @@
+package spring.study.myapp.util;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+public class TimeCheck {
+	
+	public void beforeLog(JoinPoint joinPoint) throws NoSuchMethodException, SecurityException {
+		Signature s = joinPoint.getSignature();
+		System.out.println("클래스: "+s.getDeclaringTypeName()+", 메서드: "+s.getName()+" 시작");
+	}
+	
+	public void AfterLog(JoinPoint joinPoint) {
+		Signature s = joinPoint.getSignature();
+		System.out.println("클래스: "+s.getDeclaringTypeName()+", 메서드: "+s.getName()+" 종료");
+	}
+}

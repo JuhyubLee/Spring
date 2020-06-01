@@ -1,0 +1,9 @@
+package spring.study.myapp.service.copy;
+
+public class HomeService {
+
+	public static void main(String[] args) {
+		<org.aspectj-version>
+	}
+
+}

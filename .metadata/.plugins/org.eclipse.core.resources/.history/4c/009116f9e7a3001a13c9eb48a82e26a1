@@ -1,0 +1,12 @@
+package spring.study.myapp.dao;
+
+
+
+public class HomeRepo {
+
+
+	
+	public void AdminName() {
+		System.out.println("My Name is Juhyub_Lee.");
+	}
+}

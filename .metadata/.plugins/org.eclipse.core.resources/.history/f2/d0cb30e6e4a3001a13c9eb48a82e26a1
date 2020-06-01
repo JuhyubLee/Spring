@@ -1,0 +1,8 @@
+package spring.study.myapp;
+
+
+public class Main {
+
+	@Autowired
+	HomeService homeService = new HomeService();
+}

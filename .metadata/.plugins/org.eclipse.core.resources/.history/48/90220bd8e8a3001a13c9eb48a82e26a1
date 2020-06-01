@@ -1,0 +1,7 @@
+package spring.study.myapp.util;
+
+@Component
+@Aspect
+public class TimeCheck {
+	
+}

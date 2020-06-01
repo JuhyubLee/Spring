@@ -1,0 +1,16 @@
+package spring.study.myapp.dao;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import spring.study.myapp.service.HomeService;
+
+@Component
+public class HomeRepo {
+
+	@Autowired
+	HomeService homeService;
+	
+	public void AdminName() {
+		System.out.println("My Name is Juhyub_Lee.");
+	}
+}

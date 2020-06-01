@@ -1,0 +1,7 @@
+package spring.jh.myapp.hr.dao;
+
+public interface IEmpService {
+int getEmpCount();
+int getEmpCount(int deptId);
+List<EmpVO> getEmpList();
+}

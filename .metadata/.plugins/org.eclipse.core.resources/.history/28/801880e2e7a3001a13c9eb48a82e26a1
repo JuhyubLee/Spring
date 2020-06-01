@@ -1,0 +1,15 @@
+package spring.study.myapp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import spring.study.myapp.service.HomeService;
+
+public class HomeMain {
+
+	@Autowired
+	HomeService homeService;
+	
+	public void ViewName() {
+		homeService.AdminName();
+	}
+}

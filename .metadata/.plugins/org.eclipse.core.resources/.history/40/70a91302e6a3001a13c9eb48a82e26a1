@@ -1,0 +1,7 @@
+package spring.study.myapp.dao;
+
+public class HomeRepo {
+
+	@Autowired
+	HomeService homeService;
+}

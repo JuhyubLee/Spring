@@ -1,0 +1,10 @@
+package spring.study.myapp.service;
+
+public class HomeService {
+
+	public void AdminName() {
+		System.out.println("My Name is Juhyub_Lee.");
+	}
+	
+
+}

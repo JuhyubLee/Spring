@@ -1,0 +1,5 @@
+package spring.study.myapp.service;
+
+public class HomeService {
+
+}

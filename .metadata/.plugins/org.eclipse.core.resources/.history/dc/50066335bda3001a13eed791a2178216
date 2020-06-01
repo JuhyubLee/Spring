@@ -1,0 +1,4 @@
+jdbc.driverClassName=oracle.jdbc.OracleDriver
+jdbc.url=jdbc:oracle:thin:@localhost:1521/xepdb1
+jdbc.username=hr
+jdbc.password=hr

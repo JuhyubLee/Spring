@@ -1,0 +1,5 @@
+package spring.jh.myapp.hr.dao;
+
+public interface IEmpService {
+
+}

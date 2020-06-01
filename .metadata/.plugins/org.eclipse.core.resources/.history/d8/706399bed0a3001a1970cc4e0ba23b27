@@ -1,0 +1,15 @@
+package spring.jh.myapp.hr.dao;
+
+import java.util.List;
+
+import spring.jh.myapp.hr.model.EmpVO;
+
+public interface IEmpRepository {
+
+	int getEmpCount();
+	int getEmpCount(int deptId);
+	List<EmpVO> getEmpList();
+	EmpVO getEmpInfo(int empId);
+	void updateEmp(EmpVO emp);
+	void insertEmp(EmpVO emp);
+}
