@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import spring.jh.myapp.hr.model.DeptVO;
 import spring.jh.myapp.hr.model.EmpVO;
@@ -40,7 +41,7 @@ public DeptVO getDeptInfo(int deptId) {
 	return empRepository.getDeptInfo(deptId);
 }
 
-@Override
+@Transactional("txManager")
 public void updateEmp(EmpVO emp) {
 	empRepository.deleteJobHistory(emp.getEmployeeId());
 	empRepository.updateEmp(emp);
@@ -52,6 +53,7 @@ public void insertEmp(EmpVO emp) {
 }
 
 @Override
+@Transactional("txManager")
 public void deleteEmp(int empId) {
 	empRepository.deleteJobHistory(empId);
 	empRepository.deleteEmp(empId);
