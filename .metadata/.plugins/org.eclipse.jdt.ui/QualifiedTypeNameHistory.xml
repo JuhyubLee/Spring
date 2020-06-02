@@ -24,6 +24,6 @@
 <fullyQualifiedTypeName name="spring.jh.myapp.hr.dao.IEmpService"/>
 <fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
 <fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
-<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.DeptVO"/>
 <fullyQualifiedTypeName name="org.springframework.jdbc.core.RowMapper"/>
+<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.DeptVO"/>
 </qualifiedTypeNameHistroy>

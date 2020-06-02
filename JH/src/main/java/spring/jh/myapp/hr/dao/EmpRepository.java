@@ -69,7 +69,7 @@ public class EmpRepository implements IEmpRepository {
 	public void updateEmp(EmpVO emp) {
 		String sql = "update employees set first_name=?, last_name=?,"
 				+ "email=?, phone_number=?, hire_date=?, job_id=?,"
-				+ "salary=?, commissionPct=?, manager_id=?,"
+				+ "salary=?, commission_Pct=?, manager_id=?,"
 				+ "department_id=? where employee_id=?";
 		jdbcTemplate.update(sql, emp.getFirstName(), emp.getLastName(),
 				emp.getEmail(), emp.getPhoneNumber(), emp.getHireDate(),
