@@ -1,0 +1,8 @@
+package spring.jh.myapp.hr.model;
+
+public class DeptVO {
+
+	private String Administration;
+	private String Marketing;
+	private String Purchasting;
+}

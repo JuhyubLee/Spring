@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import spring.jh.myapp.hr.model.DeptVO;
 import spring.jh.myapp.hr.model.EmpVO;
 
 @Repository
@@ -37,6 +38,22 @@ public class EmpRepository implements IEmpRepository {
 	public EmpVO getEmpInfo(int empId) {
 		String sql = "select * from employees where employee_id=?";
 		return jdbcTemplate.queryForObject(sql, new EmpMapper(), empId);
+	}
+	
+	public DeptVO getDeptInfo(int deptId) {
+		String sql = "select * from departments where department_id=?";
+		return jdbcTemplate.queryForObject(sql, new RowMapper<DeptVO>(){
+
+			@Override
+			public DeptVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DeptVO dept = new DeptVO();
+				dept.setDepartmentId(rs.getInt("department_id"));
+				dept.setDepartmentName(rs.getString("department_name"));
+				dept.setManagerId(rs.getInt("manager_id"));
+				dept.setLocationId(rs.getInt("location_id"));
+				return dept;
+			}
+		});
 	}
 	
 	@Override
@@ -94,25 +111,26 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.queryForList(sql);
 	}
 
+
 @Autowired
 JdbcTemplate jdbcTemplate;
 
 private class EmpMapper implements RowMapper<EmpVO>{
-public EmpVO mapRow(ResultSet rs, int count) throws SQLException{
-	EmpVO emp = new EmpVO();
-	emp.setEmployeeId(rs.getInt("employee_id"));
-	emp.setFirstName(rs.getString("first_name"));
-	emp.setLastName(rs.getString("last_name"));
-	emp.setEmail(rs.getString(4));
-	emp.setPhoneNumber(rs.getString(5));
-	emp.setHireDate(rs.getDate(6));
-	emp.setJobId(rs.getString(7));
-	emp.setSalary(rs.getDouble(8));
-	emp.setCommissionPct(rs.getDouble(9));
-	emp.setManagerId(rs.getInt(10));
-	emp.setDepartmentId(rs.getInt(11));
-	return emp;
-}
+	public EmpVO mapRow(ResultSet rs, int count) throws SQLException{
+		EmpVO emp = new EmpVO();
+		emp.setEmployeeId(rs.getInt("employee_id"));
+		emp.setFirstName(rs.getString("first_name"));
+		emp.setLastName(rs.getString("last_name"));
+		emp.setEmail(rs.getString(4));
+		emp.setPhoneNumber(rs.getString(5));
+		emp.setHireDate(rs.getDate(6));
+		emp.setJobId(rs.getString(7));
+		emp.setSalary(rs.getDouble(8));
+		emp.setCommissionPct(rs.getDouble(9));
+		emp.setManagerId(rs.getInt(10));
+		emp.setDepartmentId(rs.getInt(11));
+		return emp;
+	}
 }
 	
 }

@@ -1,0 +1,8 @@
+package spring.jh.myapp.hr.model;
+
+public class DeptVO {
+
+	private String Department_Name;
+	private int Manager_Id;
+	private int Location_Id;
+}

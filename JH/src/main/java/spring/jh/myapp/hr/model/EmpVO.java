@@ -14,6 +14,7 @@ public class EmpVO {
 	private int managerId;
 	private int departmentId;
 	
+	
 	public int getEmployeeId() {
 		return employeeId;
 	}
