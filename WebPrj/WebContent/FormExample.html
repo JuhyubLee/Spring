@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>폼 예제</title>
+</head>
+<body>
+<form action="/FormExample.do" method=post>
+아이디 : <input type=text name=id value="아이디"><br>
+비밀번호 : <input type=password name=pw><br>
+생년월일 : <input type=date name=birth><br>
+취미 : <input type=checkbox name=hobby value=1>철권
+	<input type=checkbox name=hobby value=2>펜타스톰
+	<input type=checkbox name=hobby value=3>롤토체스<br>
+성별 : <input type=radio name=gender value=F>여
+	<input type=radio name=gender value=M>남<Br>
+이메일 : <input type=email name=email><br>
+연락처 : <input type=tel name=tel 
+pattern="^[0][1][0-9](-|\s)\d{3,4}(-|\s)\d{4}$"><br>
+학년 : <input type=number name=grade min=1 max=4 step=1><br>
+자기소개 : <textarea cols=20 rows=5 name=intro>자기소개를 써주세요.</textarea><br>
+지역 : <select name=area>
+<option value=1>서울</option>
+<option value=2>경기도</option>
+<option value=3>경상도</option>
+<option value=4>전라도</option>
+</select><br>
+<input type=submit value=저장>&nbsp;<input type=reset value=취소>
+</form>
+</body>
+</html>

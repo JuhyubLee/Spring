@@ -1,8 +1,0 @@
-package spring.jh.myapp.hr;
-
-public class EmpMain {
-	
-	public static void main(String[] args) {
-		AbstractApplicationContext context = New GenericXmlApplicationContext(" application-config.xml" );
-	}
-}

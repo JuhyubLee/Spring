@@ -5,7 +5,35 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-06-01T19:03:00Z</updated>
+  <updated>2020-06-03T02:06:01Z</updated>
+  <entry>
+    <title>This Week in Spring - June 2, 2020</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/06/03/this-week-in-spring-june-2-2020" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-06-03:4088</id>
+    <updated>2020-06-03T02:06:01Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans. We&amp;rsquo;ve got a ton of stuff to cover this week so let&amp;rsquo;s get to it.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/06/01/spring-cloud-greenwich-sr6-hoxton-sr5-and-2020-0-0-m2-aka-ilford-are-available"&gt;Spring Cloud Greenwich.SR6, Hoxton.SR5 and 2020.0.0-M2 (aka Ilford) are Available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/05/28/a-bootiful-podcast-dr-malini-bhandaru-on-edgex-and-the-opportunities-for-developers-in-the-iot-space"&gt;A Bootiful Podcast: Dr. Malini Bhandaru on EdgeX and the opportunities for developers in the IoT space&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/05/28/spring-security-oauth-2-5-0-released"&gt;Spring Security OAuth 2.5.0 Released&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/05/28/spring-fu-0-3-0-and-beyond"&gt;Spring Fu 0.3.0 and beyond&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/05/28/spring-tools-4-6-2-released"&gt;Spring Tools 4.6.2 released&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://docs.spring.io/spring-batch/docs/current/reference/html/spring-batch-integration.html#remote-partitioning"&gt;Spring Batch Integration&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/05/27/what-s-new-in-spring-data-elasticsearch-4-0"&gt;What&amp;rsquo;s new in Spring Data Elasticsearch 4.0&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.rabbitmq.com/blog/2020/06/01/this-month-in-rabbitmq-april-2020-recap/"&gt;This Month in RabbitMQ &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/juliendubois/status/1267599112893091841?s=12"&gt;A really nice thread about using Spring Boot, GraalVM native images, and Azure Functions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blog.codecentric.de/en/2020/06/spring-boot-graalvm-docker-heroku/"&gt;Running Spring Boot GraalVM Native Images with Docker &amp;amp; Heroku&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://cguntur.me/2020/05/20/understanding-apache-maven-the-series/"&gt;Understanding Apache Maven - a great series by Chandra Guntur&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;New blog post: Static Compilation of Java (and Spring Boot-based) Applications at Alibaba at Scale](&lt;a href="https://medium.com/graalvm/static-compilation-of-java-applications-at-alibaba-at-scale-2944163c92e"&gt;https://medium.com/graalvm/static-compilation-of-java-applications-at-alibaba-at-scale-2944163c92e&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;We are looking for maintainers for the Spring Cloud AWS project to join @maciejwalkowiak in taking the project forward. See this issue to volunteer or comment on the future of the project](&lt;a href="https://t.co/Hm1mXCBphr"&gt;https://t.co/Hm1mXCBphr&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Did you hear? Spring Cloud Data Flow 2.5 is now GA. Check out &lt;a href="https://t.co/gXV2bo3LZq"&gt;the enhancements here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Cloud Greenwich.SR6, Hoxton.SR5 and 2020.0.0-M2 (aka Ilford) are Available</title>
     <link rel="alternate" href="https://spring.io/blog/2020/06/01/spring-cloud-greenwich-sr6-hoxton-sr5-and-2020-0-0-m2-aka-ilford-are-available" />
@@ -2065,24 +2093,6 @@ public class Person implements Persistable&amp;lt;Long&amp;gt; {
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>CVE reports published for Spring Security</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/05/13/cve-reports-published-for-spring-security" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Eleftheria Stein-Kousathana</name>
-    </author>
-    <id>tag:spring.io,2020-05-13:4070</id>
-    <updated>2020-05-13T13:55:24Z</updated>
-    <content type="html">&lt;p&gt;We have released Spring Security 5.3.2, 5.2.4, 5.1.10, 5.0.16 and 4.2.16 to address the following CVE reports:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2020-5407"&gt;CVE-2020-5407: Signature Wrapping Vulnerability with spring-security-saml2-service-provider&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2020-5408"&gt;CVE-2020-5408: Dictionary attack with Spring Security queryable text encryptor&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Please review the information in the CVE report and upgrade immediately.&lt;/p&gt;
-&lt;p&gt;Spring Boot users should upgrade to &lt;a href="https://spring.io/blog/2020/05/07/spring-boot-2-2-7-available-now"&gt;2.2.7&lt;/a&gt; or &lt;a href="https://spring.io/blog/2020/05/07/spring-boot-2-1-14-available-now"&gt;2.1.14&lt;/a&gt;.&lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

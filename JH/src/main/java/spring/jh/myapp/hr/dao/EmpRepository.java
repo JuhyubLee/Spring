@@ -16,6 +16,27 @@ import spring.jh.myapp.hr.model.EmpVO;
 @Repository
 public class EmpRepository implements IEmpRepository {
 	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+
+	private class EmpMapper implements RowMapper<EmpVO>{
+		public EmpVO mapRow(ResultSet rs, int count) throws SQLException{
+			EmpVO emp = new EmpVO();
+			emp.setEmployeeId(rs.getInt("employee_id"));
+			emp.setFirstName(rs.getString("first_name"));
+			emp.setLastName(rs.getString("last_name"));
+			emp.setEmail(rs.getString(4));
+			emp.setPhoneNumber(rs.getString(5));
+			emp.setHireDate(rs.getDate(6));
+			emp.setJobId(rs.getString(7));
+			emp.setSalary(rs.getDouble(8));
+			emp.setCommissionPct(rs.getDouble(9));
+			emp.setManagerId(rs.getInt(10));
+			emp.setDepartmentId(rs.getInt(11));
+			return emp;
+		}
+	}
+	
 	@Override
 	public int getEmpCount() {
 		String sql = "select count(*) from employees";
@@ -53,7 +74,15 @@ public class EmpRepository implements IEmpRepository {
 				dept.setLocationId(rs.getInt("location_id"));
 				return dept;
 			}
-		});
+		}, deptId);
+	}
+	
+	@Override
+	public List<EmpVO> getTopSalary() {
+		String sql = "select * from employees e where"
+				+ " (e.salary, e.department_id) in (select max(salary), "
+				+ "department_id from employees group by department_id)";
+		return jdbcTemplate.query(sql, new EmpMapper());
 	}
 	
 	@Override
@@ -65,17 +94,17 @@ public class EmpRepository implements IEmpRepository {
 				emp.getManagerId(), emp.getDepartmentId());
 	}
 	
-	@Override
-	public void updateEmp(EmpVO emp) {
-		String sql = "update employees set first_name=?, last_name=?,"
-				+ "email=?, phone_number=?, hire_date=?, job_id=?,"
-				+ "salary=?, commission_Pct=?, manager_id=?,"
-				+ "department_id=? where employee_id=?";
-		jdbcTemplate.update(sql, emp.getFirstName(), emp.getLastName(),
-				emp.getEmail(), emp.getPhoneNumber(), emp.getHireDate(),
-				emp.getJobId(), emp.getSalary(), emp.getCommissionPct(),
-				emp.getManagerId(), emp.getDepartmentId(), emp.getEmployeeId());
-	}
+	
+	  @Override 
+	  public void updateEmp(EmpVO emp) { String sql =
+	  "update employees set first_name=?, last_name=?," +
+	  "email=?, phone_number=?, hire_date=?, job_id=?," +
+	  "salary=?, commission_Pct=?, manager_id=?," +
+	  "department_id=? where employee_id=?"; 
+	  jdbcTemplate.update(sql, emp.getFirstName(), emp.getLastName(), emp.getEmail(), emp.getPhoneNumber(),
+	  emp.getHireDate(), emp.getJobId(), emp.getSalary(), emp.getCommissionPct(),
+	  emp.getManagerId(), emp.getDepartmentId(), emp.getEmployeeId()); }
+	 
 	
 	@Override
 	public void deleteEmp(int empId) {
@@ -112,25 +141,6 @@ public class EmpRepository implements IEmpRepository {
 	}
 
 
-@Autowired
-JdbcTemplate jdbcTemplate;
 
-private class EmpMapper implements RowMapper<EmpVO>{
-	public EmpVO mapRow(ResultSet rs, int count) throws SQLException{
-		EmpVO emp = new EmpVO();
-		emp.setEmployeeId(rs.getInt("employee_id"));
-		emp.setFirstName(rs.getString("first_name"));
-		emp.setLastName(rs.getString("last_name"));
-		emp.setEmail(rs.getString(4));
-		emp.setPhoneNumber(rs.getString(5));
-		emp.setHireDate(rs.getDate(6));
-		emp.setJobId(rs.getString(7));
-		emp.setSalary(rs.getDouble(8));
-		emp.setCommissionPct(rs.getDouble(9));
-		emp.setManagerId(rs.getInt(10));
-		emp.setDepartmentId(rs.getInt(11));
-		return emp;
-	}
-}
 	
 }

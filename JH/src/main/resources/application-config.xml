@@ -8,16 +8,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-
 <context:component-scan base-package="spring.jh.myapp" />	
-
-
 <aop:aspectj-autoproxy/>
-
 <context:property-placeholder
 location="classpath:db/jdbc.properties"/>
-
-<tx:annotation-driven transaction-manager="txManager"/>
 
 <bean id="dataSource"
 class="org.apache.commons.dbcp2.BasicDataSource">
@@ -33,10 +27,10 @@ class="org.springframework.jdbc.core.JdbcTemplate">
 </bean>
 
 <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	<property name="dataSource" ref="dataSource"/>
+<property name="dataSource" ref="dataSource"/>
 </bean>
 
-
+<tx:annotation-driven transaction-manager="txManager"/>
 
 
 </beans>

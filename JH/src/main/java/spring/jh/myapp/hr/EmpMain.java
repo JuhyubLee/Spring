@@ -16,7 +16,10 @@ public class EmpMain {
 		HelloController control = context.getBean("helloController", HelloController.class);
 		control.hello("이주협");
 		empService.updateEmp(empService.getEmpInfo(108));
-		context.close();
+		System.out.println(empService.getEmpInfo(108));
+		System.out.println(empService.getDeptInfo(10));
+		System.out.println(empService.getTopSalary());
 
+		context.close();
 	}
 }

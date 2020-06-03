@@ -41,6 +41,12 @@ public DeptVO getDeptInfo(int deptId) {
 	return empRepository.getDeptInfo(deptId);
 }
 
+@Override
+public List<EmpVO> getTopSalary() {
+	return empRepository.getTopSalary();
+}
+
+@Override
 @Transactional("txManager")
 public void updateEmp(EmpVO emp) {
 	empRepository.deleteJobHistory(emp.getEmployeeId());
@@ -78,4 +84,6 @@ public List<Map<String, Object>> getAllJobId(){
 public List<Map<String, Object>> getAllManagerId(){
 	return empRepository.getAllManagerId();
 }
+
+
 }

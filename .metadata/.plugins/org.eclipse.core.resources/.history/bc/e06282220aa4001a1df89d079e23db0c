@@ -1,5 +1,0 @@
-package spring.jh.myapp.hr.dao;
-
-public class EmpRepository {
-
-}

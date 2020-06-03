@@ -31,6 +31,11 @@ public class DeptVO {
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
+	@Override
+	public String toString() {
+		return "DeptVO [departmentId=" + departmentId + ", departmentName=" + departmentName + ", managerId="
+				+ managerId + ", locationId=" + locationId + "]";
+	}
 	
 	
 }
