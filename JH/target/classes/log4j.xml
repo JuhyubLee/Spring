@@ -49,9 +49,6 @@
 	<level value="error" />
 	</logger>
 	
-	<logger name="jdbc.audit">
-	<level value="info"/>
-	</logger>
 	
 
 
