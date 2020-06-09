@@ -20,10 +20,6 @@ public class TimeTracer {
 	@Pointcut(value="execution(* spring..*.*(..))")
 	private void LastPointcut() {}
 	
-	
-	
-	
-	
 	@Before("FirstPointcut()")
 	public void beforeLog(JoinPoint joinPoint) throws NoSuchMethodException, SecurityException {
 		Signature s = joinPoint.getSignature();

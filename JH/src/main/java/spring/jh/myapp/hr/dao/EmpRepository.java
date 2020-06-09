@@ -33,6 +33,9 @@ public class EmpRepository implements IEmpRepository {
 			emp.setCommissionPct(rs.getDouble(9));
 			emp.setManagerId(rs.getInt(10));
 			emp.setDepartmentId(rs.getInt(11));
+			emp.setJobTitle(rs.getString("job_title"));
+
+
 			return emp;
 		}
 	}
@@ -51,13 +54,13 @@ public class EmpRepository implements IEmpRepository {
 	
 	@Override
 	public List<EmpVO> getEmpList(){
-		String sql = "select * from employees";
+		String sql = "select * from employees emp join jobs jb on emp.job_id = jb.job_id order by 1 ASC";
 		return jdbcTemplate.query(sql, new EmpMapper());
 	}
 	
 	@Override
 	public EmpVO getEmpInfo(int empId) {
-		String sql = "select * from employees where employee_id=?";
+		String sql = "select * from employees emp join jobs jb on emp.job_id = jb.job_id where employee_id=?";
 		return jdbcTemplate.queryForObject(sql, new EmpMapper(), empId);
 	}
 	
@@ -115,6 +118,12 @@ public class EmpRepository implements IEmpRepository {
 	@Override
 	public void deleteJobHistory(int empId) {
 		String sql = "delete from job_history where employee_id=?";
+		jdbcTemplate.update(sql, empId);
+	}
+	
+	@Override
+	public void updateManager(int empId) {
+		String sql = "update employees e set e.manager_id=null where manager_id=(select employee_id from employees where employee_id=?)";
 		jdbcTemplate.update(sql, empId);
 	}
 	

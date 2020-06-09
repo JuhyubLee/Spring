@@ -62,12 +62,17 @@ public void insertEmp(EmpVO emp) {
 @Transactional("txManager")
 public void deleteEmp(int empId) {
 	empRepository.deleteJobHistory(empId);
+	empRepository.updateManager(empId);
 	empRepository.deleteEmp(empId);
 }
 
 @Override
 public void deleteJobHistory(int empId) {
 	empRepository.deleteJobHistory(empId);
+}
+@Override
+public void updateManager(int empId) {
+	empRepository.updateManager(empId);
 }
 
 @Override

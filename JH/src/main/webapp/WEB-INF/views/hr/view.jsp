@@ -35,7 +35,7 @@
 </tr>
 <tr>
 <th>Job_id</th>
-<td>${emp.jobId}</td>
+<td>${emp.jobId} ${emp.jobTitle}</td>
 </tr>
 <tr>
 <th>Salary</th>

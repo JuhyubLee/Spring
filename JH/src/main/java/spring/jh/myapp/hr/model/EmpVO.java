@@ -13,6 +13,8 @@ public class EmpVO {
 	private double commissionPct;
 	private int managerId;
 	private int departmentId;
+	private String jobTitle;
+
 	
 	
 	public int getEmployeeId() {
@@ -57,6 +59,7 @@ public class EmpVO {
 	public void setJobId(String jobId) {
 		this.jobId = jobId;
 	}
+
 	public double getSalary() {
 		return salary;
 	}
@@ -81,13 +84,28 @@ public class EmpVO {
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
 	}
+	public String getJobTitle() {
+		return jobTitle;
+	}
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+	
 	@Override
 	public String toString() {
 		return "EmpVO [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
 				+ email + ", phoneNumber=" + phoneNumber + ", hireDate=" + hireDate + ", jobId=" + jobId + ", salary="
 				+ salary + ", commissionPct=" + commissionPct + ", managerId=" + managerId + ", departmentId="
-				+ departmentId + "]";
+				+ departmentId + ", jobTitle=" + jobTitle + "]";
 	}
+
+
+	
+
+
+	
+
+
 	
 	
 }
