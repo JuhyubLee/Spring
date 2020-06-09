@@ -1,7 +1,6 @@
 package spring.jh.myapp.hello.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import spring.jh.myapp.util.HelloTime;
 

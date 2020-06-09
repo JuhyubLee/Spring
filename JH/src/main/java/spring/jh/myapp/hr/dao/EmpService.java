@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.jh.myapp.hr.model.DeptVO;
 import spring.jh.myapp.hr.model.EmpVO;
+import spring.jh.myapp.hr.model.JobVO;
 
 @Service
 public class EmpService implements IEmpService{
@@ -81,14 +82,13 @@ public List<Map<String, Object>> getAllDeptId(){
 }
 
 @Override
-public List<Map<String, Object>> getAllJobId(){
-	return empRepository.getAllJobId();
-}
-
-@Override
 public List<Map<String, Object>> getAllManagerId(){
 	return empRepository.getAllManagerId();
 }
 
+@Override
+public List<JobVO> getAllJobId(){
+	return empRepository.getAllJobId();
+}
 
 }

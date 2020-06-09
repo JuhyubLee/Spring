@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import spring.jh.myapp.hr.model.DeptVO;
 import spring.jh.myapp.hr.model.EmpVO;
+import spring.jh.myapp.hr.model.JobVO;
 
 @Repository
 public class EmpRepository implements IEmpRepository {
@@ -134,11 +135,6 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.queryForList(sql);
 	}
 	
-	@Override
-	public List<Map<String, Object>> getAllJobId(){
-		String sql = "select job_id as jobId, job_title as jobTitle from jobs";
-		return jdbcTemplate.queryForList(sql);
-	}
 	
 	@Override
 	public List<Map<String, Object>> getAllManagerId() {
@@ -149,6 +145,20 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.queryForList(sql);
 	}
 
+	@Override
+	public List<JobVO> getAllJobId(){
+		String sql = "select job_id as jobId, job_title as jobTitle "
+				+ "from jobs";
+		return jdbcTemplate.query(sql, new RowMapper<JobVO>(){
+			@Override
+			public JobVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				JobVO job = new JobVO();
+				job.setJobId(rs.getString(1));
+				job.setJobTitle(rs.getString(2));
+				return job;
+			}
+		});
+	}
 
 
 	

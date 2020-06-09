@@ -5,6 +5,7 @@ import java.util.Map;
 
 import spring.jh.myapp.hr.model.DeptVO;
 import spring.jh.myapp.hr.model.EmpVO;
+import spring.jh.myapp.hr.model.JobVO;
 
 public interface IEmpRepository {
 
@@ -19,7 +20,7 @@ public interface IEmpRepository {
 	void deleteJobHistory(int empId);
 	void updateManager(int empId);
 	List<Map<String,Object>> getAllDeptId();
-	List<Map<String,Object>> getAllJobId();
 	List<Map<String,Object>> getAllManagerId();
 	List<EmpVO> getTopSalary();
+	List<JobVO> getAllJobId();
 }

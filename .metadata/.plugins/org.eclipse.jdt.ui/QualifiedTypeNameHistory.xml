@@ -39,8 +39,6 @@
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.ObjectMapper"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
-<fullyQualifiedTypeName name="org.springframework.validation.Validator"/>
-<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 <fullyQualifiedTypeName name="spring.jh.myapp.hr.model.EmpVO"/>
 <fullyQualifiedTypeName name="org.springframework.validation.Errors"/>
 <fullyQualifiedTypeName name="spring.jh.myapp.util.EmpValidator"/>
@@ -48,4 +46,15 @@
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.InitBinder"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
 <fullyQualifiedTypeName name="org.springframework.validation.BindingResult"/>
+<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.JobVO"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+<fullyQualifiedTypeName name="javax.validation.Valid"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Qualifier"/>
+<fullyQualifiedTypeName name="org.springframework.validation.Validator"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Min"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Pattern"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Size"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Past"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.Digits"/>
+<fullyQualifiedTypeName name="javax.validation.constraints.DecimalMax"/>
 </qualifiedTypeNameHistroy>

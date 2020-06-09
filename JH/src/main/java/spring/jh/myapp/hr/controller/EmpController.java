@@ -3,12 +3,14 @@ package spring.jh.myapp.hr.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import spring.jh.myapp.hr.dao.EmpRepository;
 import spring.jh.myapp.hr.dao.IEmpService;
 import spring.jh.myapp.hr.model.EmpVO;
-import spring.jh.myapp.util.EmpValidator;
 
 
 @Controller
@@ -33,9 +32,6 @@ public class EmpController {
 
 	@Autowired
 	IEmpService empService;
-	
-	@Autowired
-	private EmpValidator empValidator;
 	
 	@RequestMapping("/count")
 	public String empCount(@RequestParam(value="deptId",
@@ -78,13 +74,14 @@ public class EmpController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertEmp(@ModelAttribute("emp") @Validated EmpVO emp, 
+	public String insertEmp(@ModelAttribute("emp") @Valid EmpVO emp, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		if(result.hasErrors()) {
 			model.addAttribute("jobList", empService.getAllJobId());
 			model.addAttribute("manList", empService.getAllManagerId());
 			model.addAttribute("deptList", empService.getAllDeptId());
 			model.addAttribute("message", "insert");
+			return "hr/insert";
 		}
 		empService.insertEmp(emp);
 		redirectAttributes.addFlashAttribute("message", "회원 저장 완료");
@@ -140,10 +137,7 @@ public class EmpController {
 		return emp;
 	}
 	
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(empValidator);
-	}
+
 	
 	
 	

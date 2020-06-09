@@ -1,15 +1,31 @@
 package spring.jh.myapp.hr.model;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class EmpVO {
 
+	@Min(value=207, message="사원번호는 207 이상")
 	private int employeeId;
+	@Pattern(regexp="[//w가-힣]+", message="이름 입력")
+	@Size(max=10, message="데이터 베이스 제약조건 위배(20byte)")
 	private String firstName;
+	@Pattern(regexp="[//w가-힣]+", message="성 입력")
+	@Size(max=12, message="데이터 베이스 제약조건 위배(25byte)")
 	private String lastName;
+	@Pattern(regexp="[a-zA-Z0-9](-|\\s)\\d{3,4}(-|\\s)\\d{4}$", message="핸드폰 번화번호 양식에 맞춰주세요")
 	private String email;
 	private String phoneNumber;
+	@Past
 	private java.sql.Date hireDate;
 	private String jobId;
+	@Digits(integer=6, fraction=2, message="잘못된 급여액(6자리 이상 불가)")
 	private double salary;
+	@DecimalMax(value="0.99", message="보너스율은 1 미만입니다.")
 	private double commissionPct;
 	private int managerId;
 	private int departmentId;
@@ -98,6 +114,9 @@ public class EmpVO {
 				+ salary + ", commissionPct=" + commissionPct + ", managerId=" + managerId + ", departmentId="
 				+ departmentId + ", jobTitle=" + jobTitle + "]";
 	}
+	
+
+	
 
 
 	
