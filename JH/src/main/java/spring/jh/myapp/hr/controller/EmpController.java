@@ -33,6 +33,9 @@ public class EmpController {
 	@Autowired
 	IEmpService empService;
 	
+	
+	
+	// COUNT
 	@RequestMapping("/count")
 	public String empCount(@RequestParam(value="deptId",
 	required=false, defaultValue="0") int deptId, Model model) {
@@ -44,19 +47,21 @@ public class EmpController {
 		return "hr/count";
 	}
 	
+	// LIST
 	@RequestMapping("/list")
 	public void getAllEmployees(Model model) {
 		List<EmpVO> empList = empService.getEmpList();
 		model.addAttribute("empList", empList);
 	}
 	
-	
+	// TOP SALARY
 	@RequestMapping("/top")
 	public void getTopSalary(Model model) {
 		List<EmpVO> empTop = empService.getTopSalary();
 		model.addAttribute("empTop", empTop);
 	}
 	
+	// VIEW
 	@RequestMapping("/{employeeId}")
 	public String getEmployees(@PathVariable int employeeId, Model model) {
 		EmpVO emp = empService.getEmpInfo(employeeId);
@@ -64,6 +69,7 @@ public class EmpController {
 		return "hr/view";
 	}
 	
+	// INSERT
 	@GetMapping("/insert")
 	public void insertEmp(Model model) {
 		model.addAttribute("emp", new EmpVO());
@@ -88,6 +94,7 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	
+	// UPDATE
 	@GetMapping("/update")
 	public String updateEmp(int empId, Model model) {
 		model.addAttribute("emp", empService.getEmpInfo(empId));
@@ -103,7 +110,7 @@ public class EmpController {
 		empService.updateEmp(emp);
 		return "redirect:/hr/"+emp.getEmployeeId();
 	}
-	
+	// ERROR
 	@ExceptionHandler(RuntimeException.class)
 	public String runtimeException(HttpServletRequest request, Exception ex, Model model){
 		model.addAttribute("url", request.getRequestURI());

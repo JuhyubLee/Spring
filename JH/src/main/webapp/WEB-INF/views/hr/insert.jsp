@@ -27,8 +27,8 @@ modelAttribute="emp">
 </tr>
 <tr>
 <th>Last_name</th>
-<td><form:input path="LastName"/>
-<form:errors path="LastName"/></td>
+<td><form:input path="lastName"/>
+<form:errors path="lastName"/></td>
 </tr>
 <tr>
 <th>Email</th>
@@ -47,10 +47,12 @@ modelAttribute="emp">
 </tr>
 <tr>
 <th>Job_id</th>
-<td>
-<form:select path="jobId">
-<form:options item="${jobList}" itemLabel="jobTitle" itemValue="jobId" />
-</form:select></td>
+<td><select name=jobId>
+<c:forEach var="job" items="${jobList}">
+<option value="${job.jobId}" ${emp.jobId eq job.jobId ? "selected" :
+"" }>${job.jobTitle}</option>
+</c:forEach>
+</select></td>
 </tr>
 <tr>
 <th>Salary</th>
