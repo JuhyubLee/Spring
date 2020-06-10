@@ -11,14 +11,15 @@ public class EmpVO {
 
 	@Min(value=207, message="사원번호는 207 이상")
 	private int employeeId;
-	@Pattern(regexp="[//w가-힣]+", message="이름 입력")
+	@Pattern(regexp="[\\w가-힣]+", message="이름 입력")
 	@Size(max=10, message="데이터 베이스 제약조건 위배(20byte)")
 	private String firstName;
-	@Pattern(regexp="[//w가-힣]+", message="성 입력")
+	@Pattern(regexp="[\\w가-힣]+", message="성 입력")
 	@Size(max=12, message="데이터 베이스 제약조건 위배(25byte)")
 	private String lastName;
-	@Pattern(regexp="[a-zA-Z0-9](-|\\s)\\d{3,4}(-|\\s)\\d{4}$", message="핸드폰 번화번호 양식에 맞춰주세요")
+	@Pattern(regexp="[a-zA-Z0-9]*@[a-zA-Z]*\\..*", message="이메일 양식에 맞춰주세요")
 	private String email;
+	@Pattern(regexp="^[0][1][0-9](-|\\s)\\d{3,4}(-|\\s)\\d{4}$", message="핸드폰 전화번호 양식에 맞춰주세요")
 	private String phoneNumber;
 	@Past
 	private java.sql.Date hireDate;
