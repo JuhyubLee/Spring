@@ -42,7 +42,6 @@ INDEX VERSION 1.131+C:\Users\Juhyub\Desktop\programing\Java\workspace\.metadata\
 2155685345.index
 911398812.index
 4117236197.index
-1609623529.index
 741416789.index
 80525916.index
 3873965797.index
