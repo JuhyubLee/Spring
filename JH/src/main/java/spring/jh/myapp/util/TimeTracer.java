@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class TimeTracer {
 	
-	@Pointcut(value="execution(* spring..*.*(..))")
+	@Pointcut(value="execution(* spring.jh.myapp.hello..*.*(..))")
 	private void FirstPointcut() {}
 	
-	@Pointcut(value="execution(* spring..*.*(..))")
+	@Pointcut(value="execution(* spring.jh.myapp.hello..*.*(..))")
 	private void LastPointcut() {}
 	
 	@Before("FirstPointcut()")

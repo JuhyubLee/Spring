@@ -28,24 +28,21 @@ class="org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 <mvc:resources location="/WEB-INF/resources/css/" mapping="/css/**" />
 <mvc:view-controller path="/" view-name="home" />
 
-
 <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="prefix" value="/WEB-INF/views/" />
 	<property name="suffix" value=".jsp" />
 </bean>
 
-<bean id="messageSource"
-class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-<property name="defaultEncoding" value="UTF-8" />
-<property name="basenames">
-<list>
-<value>classpath:i18n/hr</value>
-</list>
-</property>
+<bean id="multipartResolver"
+class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="maxUploadSize">
+		<value>50000000</value>
+	</property>
 </bean>
 
 
 
 <context:component-scan base-package="spring.jh.myapp.hr.controller"/>
+<context:component-scan base-package="spring.jh.myapp.member.controller"/>
 </beans>

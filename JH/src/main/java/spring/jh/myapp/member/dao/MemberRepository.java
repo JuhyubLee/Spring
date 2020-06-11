@@ -4,10 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Repository;
 
 import spring.jh.myapp.member.model.MemberVO;
 
+@Repository
 public class MemberRepository implements IMemberRepository{
 
 	@Autowired
