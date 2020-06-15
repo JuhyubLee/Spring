@@ -5,5 +5,6 @@ import spring.jh.myapp.file.model.FileVO;
 public interface IFileService {
 
 	void uploadFile(FileVO file);
+	FileVO getFile(int fileId);
 	
 }

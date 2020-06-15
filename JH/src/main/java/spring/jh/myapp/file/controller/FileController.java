@@ -55,4 +55,9 @@ public class FileController {
 		}
 		return "redirect:/file/list";
 	}
+	
+	@GetMapping("/file/info")
+	public void getFileInfo(int fileId, Model model) {
+		model.addAttribute("file", fileService.getFile(fileId));
+	}
 }

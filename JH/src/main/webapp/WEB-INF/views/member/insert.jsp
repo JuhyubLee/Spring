@@ -11,7 +11,9 @@
 <body>
 <form action="insert" method="post">
 <table border=1>
+<tr>
 <td>아이디</td><td><input type="text" name="userId"></td>
+</tr>
 <tr>
 <td>이름</td><td><input type="text" name="name"></td>
 </tr>
@@ -25,7 +27,7 @@
 <td>주소</td><td><input type="text" name="address"></td>
 </tr>
 <tr>
-<th colspan=2><input type=submit value="입력">
+<th colspan=2><input type=submit value="가입">
 <input type=reset value="취소"></th>
 </tr>
 </table>

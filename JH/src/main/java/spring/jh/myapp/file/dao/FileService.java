@@ -17,5 +17,11 @@ public class FileService implements IFileService {
 		fileRepository.uploadFile(file);
 		
 	}
+	
+	@Override
+	public FileVO getFile(int fileId) {
+		return fileRepository.getFile(fileId);
+	}
+	
 
 }

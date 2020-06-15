@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.jh.myapp.hr.dao.IEmpService;
 import spring.jh.myapp.hr.model.EmpVO;
 
-
+@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER') or hasAnyRole('ROLE_ADMIN')")
 @Controller
 @RequestMapping("/hr")
 public class EmpController {
@@ -27,7 +28,10 @@ public class EmpController {
 	@Autowired
 	IEmpService empService;
 	
-	
+	// INDEX
+	@RequestMapping("/index")
+	public void index(Model model) {
+	}
 	
 	// COUNT
 	@RequestMapping("/count")
@@ -63,7 +67,7 @@ public class EmpController {
 		return "hr/view";
 	}
 	
-	// INSERT
+	// GET INSERT
 	@GetMapping("/insert")
 	public void insertEmp(Model model) {
 		model.addAttribute("emp", new EmpVO());
@@ -73,6 +77,7 @@ public class EmpController {
 		model.addAttribute("message", "insert");
 	}
 	
+	// POST INSERT
 	@PostMapping("/insert")
 	public String insertEmp(@ModelAttribute("emp") @Valid EmpVO emp, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes) {
@@ -88,7 +93,7 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	
-	// UPDATE
+	// GET UPDATE
 	@GetMapping("/update")
 	public String updateEmp(int empId, Model model) {
 		model.addAttribute("emp", empService.getEmpInfo(empId));
@@ -99,6 +104,7 @@ public class EmpController {
 		return "hr/insert";
 	}
 	
+	// POST UPDATE
 	@PostMapping("/update")
 	public String updateEmp(EmpVO emp, Model model) {
 		empService.updateEmp(emp);
@@ -113,12 +119,15 @@ public class EmpController {
 	}
 	
 	// DELETE METHOD
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/delete")
 	public String deleteEmp(int empId, Model model) {
 		model.addAttribute("emp", empService.getEmpInfo(empId));
 		return "hr/delete";
 	}
 	
+	// AUTHORIZE
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/delete")
 	public String deleteEmp(Model model, int empId) {
 		empService.deleteEmp(empId);
@@ -132,12 +141,14 @@ public class EmpController {
 		return empList;
 	}
 	
+	// JSON
 	@RequestMapping("/json/{employeeId}")
 	public @ResponseBody EmpVO getEmployees(@PathVariable int employeeId) {
 		EmpVO emp = empService.getEmpInfo(employeeId);
 		return emp;
 	}
 	
+
 
 	
 	

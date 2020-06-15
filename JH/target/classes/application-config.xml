@@ -4,7 +4,11 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
@@ -13,6 +17,10 @@
 <context:property-placeholder
 location="classpath:db/jdbc.properties"/>
 
+
+<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
+<!-- DATA BASE -->
 <bean id="dataSource"
 class="org.apache.commons.dbcp2.BasicDataSource">
 <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -21,19 +29,29 @@ class="org.apache.commons.dbcp2.BasicDataSource">
 <property name="password" value="${jdbc.password}"/>
 </bean>
 
+<!-- JDBC Template -->
 <bean id="jdbcTemplate"
 class="org.springframework.jdbc.core.JdbcTemplate">
 <property name="dataSource" ref="dataSource"/>
 </bean>
 
+<!-- Transaction -->
 <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 <property name="dataSource" ref="dataSource"/>
 </bean>
 
+<!-- Bcrypt -->
 <bean id="bcryptPasswordEncoder"
 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 <tx:annotation-driven transaction-manager="txManager"/>
+
+<!-- AuthenticationPrincipal Annotation -->
+<mvc:annotation-driven>
+<mvc:argument-resolvers>
+<bean class="org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver" />
+</mvc:argument-resolvers>
+</mvc:annotation-driven>
 
 
 </beans>

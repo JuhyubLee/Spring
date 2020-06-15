@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,10 @@ public class LoginController {
 	public String loginCheck(Model model, HttpSession session) {
 		Authentication authentication =
 				SecurityContextHolder.getContext().getAuthentication();
+				System.out.println(authentication.getPrincipal());
+				System.out.println(authentication.getCredentials());
+				System.out.println(authentication.getAuthorities());
+				System.out.println(authentication.isAuthenticated());
 		if(!(authentication.getDetails() instanceof MemberVO)) {
 			model.addAttribute("message","아이디 또는 비밀번호가 다릅니다.");
 			return "login";
@@ -48,7 +53,7 @@ public class LoginController {
 			if(session.getAttribute("url")!=null) {
 				url = (String)session.getAttribute("url");
 			}
-			return "redirect:/"+url;
+			return "redirect:"+url;
 		}
 	}
 }

@@ -46,4 +46,25 @@ public void uploadFile(FileVO file) {
 	jdbctemplate.update(sql, file.getFileId(),file.getDirectoryName(),file.getFileName(),
 			file.getFileSize(), file.getFileContentType(), file.getFileData());
 }
+
+@Override
+public FileVO getFile(int fileId) {
+	String sql = "select file_id, directory_name, file_name,"
+			+ "file_size, file_content_type, file_upload_date, file_data "
+			+ "from files where file_id=?";
+	return jdbctemplate.queryForObject(sql, new RowMapper<FileVO>() {
+		@Override
+		public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			FileVO file = new FileVO();
+			file.setFileId(rs.getInt("file_Id"));
+			file.setDirectoryName(rs.getString("directory_name"));
+			file.setFileName(rs.getString("file_name"));
+			file.setFileSize(rs.getLong("file_size"));
+			file.setFileContentType(rs.getString("file_content_type"));
+			file.setFileUploadDate(rs.getTimestamp("file_upload_date"));
+			file.setFileData(rs.getBytes("file_data"));
+			return file;
+		}
+	}, fileId);
+}
 }

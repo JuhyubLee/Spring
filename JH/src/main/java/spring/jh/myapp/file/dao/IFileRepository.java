@@ -6,6 +6,7 @@ public interface IFileRepository {
 
 	int getMaxFileId();
 	void uploadFile(FileVO file);
+	FileVO getFile(int fileId);
 	
 
 }
