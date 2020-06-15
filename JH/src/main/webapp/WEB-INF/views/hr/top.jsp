@@ -30,7 +30,7 @@
 <td>${emp.email}</td>
 <td>${emp.phoneNumber}</td>
 <td>${emp.hireDate}</td>
-<td>${emp.jobId}</td>
+<td>${emp.jobId}<br>(${emp.jobTitle})</td>
 <td>${emp.salary}</td>
 <td>${emp.commissionPct}</td>
 <td>${emp.managerId}</td>

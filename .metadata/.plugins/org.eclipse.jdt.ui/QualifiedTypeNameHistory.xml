@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.aspectj.lang.annotation.Around"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.AbstractApplicationContext"/>
-<fullyQualifiedTypeName name="org.springframework.context.support.GenericXmlApplicationContext"/>
-<fullyQualifiedTypeName name="spring.jh.myapp.hr.model.DeptVO"/>
-<fullyQualifiedTypeName name="spring.jh.myapp.hr.dao.IEmpService"/>
 <fullyQualifiedTypeName name="spring.jh.myapp.hr.dao.EmpRepository"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ExceptionHandler"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.databind.SerializationFeature"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
@@ -60,4 +53,11 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.HandlerInterceptor"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+<fullyQualifiedTypeName name="org.springframework.security.access.prepost.PreAuthorize"/>
+<fullyQualifiedTypeName name="org.springframework.security.web.bind.annotation.AuthenticationPrincipal"/>
+<fullyQualifiedTypeName name="org.springframework.security.core.annotation.AuthenticationPrincipal"/>
 </qualifiedTypeNameHistroy>

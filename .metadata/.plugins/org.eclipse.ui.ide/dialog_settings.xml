@@ -7,8 +7,8 @@
 		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Users\scall\OneDrive\바탕 화면\프로그래밍\Spring\eclipse\workspace"/>
 			<item value=""/>
+			<item value="C:\Users\scall\OneDrive\바탕 화면\프로그래밍\Spring\eclipse\workspace"/>
 			<item value="C:\Users\Juhyub\Desktop\programing\Java\workspace"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<security:http auto-config="true" use-expressions="true">
+<security:http pattern="/resources/**" security="none" />
+<security:http>
 <security:intercept-url pattern="/hr/delete" access="hasRole('ROLE_ADMIN')"/>
-<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
-<security:form-login/>
-<security:logout/>
+<security:intercept-url pattern="/hr/*" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')"/>
+<security:form-login login-page="/login"
+username-parameter="id" password-parameter="pw"
+login-processing-url="/loginCheck"
+default-target-url="/loginCheck"
+authentication-failure-url="/loginCheck"/>
+<security:logout logout-url="/logout"/>
+<security:access-denied-handler error-page="/error/autherror" />
+<security:csrf disabled="true"/>
+<security:session-management>
+<security:concurrency-control max-sessions="1" expired-url="/error/loginDuplicate" />
+</security:session-management>
 </security:http>
-
+<bean id="memberAuthenticationProvider"
+class="spring.jh.myapp.member.auth.MemberAuthenticationProvider" />
 <security:authentication-manager>
-<security:authentication-provider>
-<security:user-service>
-<security:user name="juhyub" password="0000" authorities="ROLE_USER"/>
-</security:user-service>
-</security:authentication-provider>
+<security:authentication-provider ref="memberAuthenticationProvider" />
 </security:authentication-manager>
 
 </beans>

@@ -38,7 +38,6 @@ public class EmpRepository implements IEmpRepository {
 			emp.setDepartmentId(rs.getInt(11));
 			emp.setJobTitle(rs.getString("job_title"));
 
-
 			return emp;
 		}
 	}
@@ -83,11 +82,12 @@ public class EmpRepository implements IEmpRepository {
 		}, deptId);
 	}
 	
+	
 	@Override
 	public List<EmpVO> getTopSalary() {
-		String sql = "select * from employees e where"
+		String sql = "select * from employees e join jobs jb on e.job_id = jb.job_id where"
 				+ " (e.salary, e.department_id) in (select max(salary), "
-				+ "department_id from employees group by department_id)";
+				+ "department_id from employees group by department_id) order by 1 ASC";
 		return jdbcTemplate.query(sql, new EmpMapper());
 	}
 	
