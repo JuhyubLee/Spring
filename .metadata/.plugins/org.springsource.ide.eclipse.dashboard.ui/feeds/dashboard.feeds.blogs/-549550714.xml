@@ -5,7 +5,305 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-06-16T23:35:25Z</updated>
+  <updated>2020-06-16T23:50:00Z</updated>
+  <entry>
+    <title>Spring Tips: Spring and GraalVM (pt. 2)</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/06/16/spring-tips-spring-and-graalvm-pt-2" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-06-17:4109</id>
+    <updated>2020-06-16T23:50:00Z</updated>
+    <content type="html">&lt;p&gt;speaker: &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/aTNLtU5YYtg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;Hi Spring fans! Welcome to a very special, interregnum episode of Spring Tips where we revisit Spring and GraalVM native images. I wanted to get this video out in light of the recent &lt;a href="https://spring.io/blog/2020/06/10/the-path-towards-spring-boot-native-applications"&gt;Spring Graal 0.7.1&lt;/a&gt; release which &lt;em&gt;drastically&lt;/em&gt; simplifies things even compared to the last time we looked at Spring and Graal &lt;em&gt;waaay&lt;/em&gt; &lt;a href="https://spring.io/blog/2020/04/16/spring-tips-the-graalvm-native-image-builder-feature"&gt;back in April 2020&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;TL;DR: GraalVm is a JIT replacement that you can use with a stock-standard JVM, and that&amp;rsquo;s worth looking into in its own right. GraalVM &lt;em&gt;also&lt;/em&gt; offers a separate feature supporting native image compilation. This &lt;code&gt;native-image&lt;/code&gt; builder takes bytecode and turns it into an architecture-specific binary that sheds the JVM and embeds something called SubstrateVM. Native images are &lt;em&gt;fast&lt;/em&gt; to startup and they take &lt;em&gt;way&lt;/em&gt; less memory at runtime. These qualities make it desirable in a containerized, cloud-centric environment. &lt;/p&gt;
+&lt;p&gt;In the April installment, I had to write out heaps of hand-crafted artisanal configuration. In this latest edition, it&amp;rsquo;s possible to get a huge swath of applications working without variable configuration. In the video, I demonstrated how to get a Spring Data JPA (with Hibernate) and Apache Tomcat working. I also demonstrated how to get a reactive application working. Let&amp;rsquo;s look at the reactive application first and then we&amp;rsquo;ll look at the JPA example. The steps we&amp;rsquo;ll take in the first example are common to most applications. &lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re going to use GraalVM and Java 8 for this project. I&amp;rsquo;m using SDKManager to install various versions of Java: &lt;code&gt;sdk install java 20.1.0.r8-grl&lt;/code&gt;. Then, you can optionally make it the default: &lt;code&gt;sdk default java 20.1.0.r8-grl&lt;/code&gt;. You&amp;rsquo;ll also need to install the native image builder into your GraalVM installation. Use &lt;code&gt;gu install native-image&lt;/code&gt;. Now we can build the application. &lt;/p&gt;&lt;h2&gt;&lt;a href="#a-reactive-example" class="anchor" name="a-reactive-example"&gt;&lt;/a&gt;A Reactive Example&lt;/h2&gt;
+&lt;p&gt;First, go to &lt;a href="http://start.Spring.io"&gt;the Spring Initializr&lt;/a&gt; and generate a new project with &lt;code&gt;R2DBC&lt;/code&gt;, &lt;code&gt;Lombok&lt;/code&gt;, &lt;code&gt;H2&lt;/code&gt;, &lt;code&gt;Reactive Web&lt;/code&gt; and use Java 8. &lt;/p&gt;
+&lt;p&gt;You&amp;rsquo;ve seen the Java code before:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;package com.example.reactive;&#xD;
+&#xD;
+import lombok.AllArgsConstructor;&#xD;
+import lombok.Data;&#xD;
+import lombok.NoArgsConstructor;&#xD;
+import lombok.RequiredArgsConstructor;&#xD;
+import org.springframework.boot.SpringApplication;&#xD;
+import org.springframework.boot.autoconfigure.SpringBootApplication;&#xD;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;&#xD;
+import org.springframework.boot.context.event.ApplicationReadyEvent;&#xD;
+import org.springframework.context.ApplicationListener;&#xD;
+import org.springframework.data.annotation.Id;&#xD;
+import org.springframework.data.r2dbc.core.DatabaseClient;&#xD;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;&#xD;
+import org.springframework.stereotype.Component;&#xD;
+import org.springframework.web.bind.annotation.GetMapping;&#xD;
+import org.springframework.web.bind.annotation.RestController;&#xD;
+import reactor.core.publisher.Flux;&#xD;
+&#xD;
+@SpringBootApplication(&#xD;
+        exclude = SpringDataWebAutoConfiguration.class,&#xD;
+        proxyBeanMethods = false&#xD;
+)&#xD;
+public class ReactiveApplication {&#xD;
+&#xD;
+    public static void main(String[] args) {&#xD;
+        SpringApplication.run(ReactiveApplication.class, args);&#xD;
+    }&#xD;
+&#xD;
+}&#xD;
+&#xD;
+&#xD;
+@RestController&#xD;
+@RequiredArgsConstructor&#xD;
+class CustomerRestController {&#xD;
+&#xD;
+    private final CustomerRepository customerRepository;&#xD;
+&#xD;
+    @GetMapping(&amp;quot;/customers&amp;quot;)&#xD;
+    Flux&amp;lt;Customer&amp;gt; customers() {&#xD;
+        return this.customerRepository.findAll();&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+@Component&#xD;
+@RequiredArgsConstructor&#xD;
+class Initializer implements ApplicationListener&amp;lt;ApplicationReadyEvent&amp;gt; {&#xD;
+&#xD;
+    private final CustomerRepository customerRepository;&#xD;
+&#xD;
+    private final DatabaseClient databaseClient;&#xD;
+&#xD;
+    @Override&#xD;
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {&#xD;
+        Flux&amp;lt;Customer&amp;gt; save = Flux.just(&amp;quot;Madhura&amp;quot;, &amp;quot;Dr. Syer&amp;quot;)&#xD;
+                .map(name -&amp;gt; new Customer(null, name))&#xD;
+                .flatMap(this.customerRepository::save);&#xD;
+&#xD;
+        String sql = &amp;quot;create table CUSTOMER(id serial primary key, name varchar(255))&amp;quot;;&#xD;
+&#xD;
+        this.databaseClient&#xD;
+                .execute(sql)&#xD;
+                .fetch()&#xD;
+                .rowsUpdated()&#xD;
+                .thenMany(save)&#xD;
+                .thenMany(this.customerRepository.findAll())&#xD;
+                .subscribe(System.out::println);&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+interface CustomerRepository extends ReactiveCrudRepository&amp;lt;Customer, Integer&amp;gt; {&#xD;
+&#xD;
+}&#xD;
+&#xD;
+@Data&#xD;
+@AllArgsConstructor&#xD;
+@NoArgsConstructor&#xD;
+class Customer {&#xD;
+&#xD;
+    @Id&#xD;
+    private Integer id;&#xD;
+    private String name;&#xD;
+&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The only thing worth noting, as it pertains to Graal and native images anyway, is that we&amp;rsquo;ve disabled the creation of proxies for &lt;code&gt;@Configuration&lt;/code&gt; class (using &lt;code&gt;proxyBeanMethods = false&lt;/code&gt;) and excluded the &lt;code&gt;SpringDataWebAutoConfiguration.class&lt;/code&gt; Java autoconfiguration. Hopefully, that last bit will be irrelevant in the near-term future. &lt;/p&gt;
+&lt;p&gt;That&amp;rsquo;s the application. Start it and you&amp;rsquo;ll see it works. We need to change the build a smidge to accommodate Graal as well. You&amp;rsquo;ll need the snapshot and milestone Spring artifact repositories in your build. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;repositories&amp;gt;&#xD;
+        &amp;lt;repository&amp;gt;&#xD;
+            &amp;lt;id&amp;gt;spring-milestones&amp;lt;/id&amp;gt;&#xD;
+            &amp;lt;name&amp;gt;Spring Milestones&amp;lt;/name&amp;gt;&#xD;
+            &amp;lt;url&amp;gt;https://repo.spring.io/milestone&amp;lt;/url&amp;gt;&#xD;
+        &amp;lt;/repository&amp;gt;&#xD;
+        &amp;lt;repository&amp;gt;&#xD;
+            &amp;lt;id&amp;gt;spring-snapshots&amp;lt;/id&amp;gt;&#xD;
+            &amp;lt;name&amp;gt;Spring Snapshots&amp;lt;/name&amp;gt;&#xD;
+            &amp;lt;url&amp;gt;https://repo.spring.io/snapshot&amp;lt;/url&amp;gt;&#xD;
+            &amp;lt;snapshots&amp;gt;&#xD;
+                &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&#xD;
+            &amp;lt;/snapshots&amp;gt;&#xD;
+        &amp;lt;/repository&amp;gt;&#xD;
+    &amp;lt;/repositories&amp;gt;&#xD;
+    &amp;lt;pluginRepositories&amp;gt;&#xD;
+        &amp;lt;pluginRepository&amp;gt;&#xD;
+            &amp;lt;id&amp;gt;spring-milestones&amp;lt;/id&amp;gt;&#xD;
+            &amp;lt;name&amp;gt;Spring Milestones&amp;lt;/name&amp;gt;&#xD;
+            &amp;lt;url&amp;gt;https://repo.spring.io/milestone&amp;lt;/url&amp;gt;&#xD;
+        &amp;lt;/pluginRepository&amp;gt;&#xD;
+        &amp;lt;pluginRepository&amp;gt;&#xD;
+            &amp;lt;id&amp;gt;spring-snapshots&amp;lt;/id&amp;gt;&#xD;
+            &amp;lt;name&amp;gt;Spring Snapshots&amp;lt;/name&amp;gt;&#xD;
+            &amp;lt;url&amp;gt;https://repo.spring.io/snapshot&amp;lt;/url&amp;gt;&#xD;
+            &amp;lt;snapshots&amp;gt;&#xD;
+                &amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&#xD;
+            &amp;lt;/snapshots&amp;gt;&#xD;
+        &amp;lt;/pluginRepository&amp;gt;&#xD;
+    &amp;lt;/pluginRepositories&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, add these three Maven dependencies. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;org.springframework.experimental&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;spring-graalvm-native&amp;lt;/artifactId&amp;gt;&#xD;
+        &amp;lt;version&amp;gt;0.7.1&amp;lt;/version&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;spring-boot-configuration-processor&amp;lt;/artifactId&amp;gt;&#xD;
+        &amp;lt;optional&amp;gt;true&amp;lt;/optional&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;spring-context-indexer&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That&amp;rsquo;s it! In the code for this repository, &lt;a href="https://github.com/spring-tips/spring-and-graal-part-2/tree/master/mongodb"&gt;I&amp;rsquo;ve also got a Spring Data MongoDB demonstration as well&lt;/a&gt;. It is a trivial Spring Data MongoDB application that uses Spring MVC. This example requires the exact same dependencies and attributes as the reactive one I&amp;rsquo;ve just shown you. &lt;/p&gt;
+&lt;p&gt;Now we&amp;rsquo;ll need to compile it. First, run the normal &lt;code&gt;mvn clean package&lt;/code&gt;. Then, we&amp;rsquo;ll need to pass the &lt;code&gt;.jar&lt;/code&gt; into the Graal &lt;code&gt;native-image&lt;/code&gt; builder. I have a script, &lt;code&gt;compile.sh&lt;/code&gt;, that I reuse for all three examples. Here it is.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint shell"&gt;#!/usr/bin/env bash&#xD;
+&#xD;
+ARTIFACT=${1}&#xD;
+MAINCLASS=${2}&#xD;
+VERSION=${3}&#xD;
+&#xD;
+JAR=&amp;quot;${ARTIFACT}-${VERSION}.jar&amp;quot;&#xD;
+&#xD;
+rm -rf target&#xD;
+mkdir -p target/native-image&#xD;
+mvn -ntp package  &#xD;
+rm -f $ARTIFACT&#xD;
+cd target/native-image&#xD;
+jar -xvf ../$JAR  &#xD;
+cp -R META-INF BOOT-INF/classes&#xD;
+&#xD;
+LIBPATH=`find BOOT-INF/lib | tr &amp;#39;\n&amp;#39; &amp;#39;:&amp;#39;`&#xD;
+CP=BOOT-INF/classes:$LIBPATH&#xD;
+GRAALVM_VERSION=`native-image --version`&#xD;
+&#xD;
+time native-image \&#xD;
+  --verbose \&#xD;
+  -H:EnableURLProtocols=http \&#xD;
+  -H:+RemoveSaturatedTypeFlows \&#xD;
+  -H:Name=$ARTIFACT \&#xD;
+  -Dspring.native.verbose=true \&#xD;
+  -Dspring.native.remove-jmx-support=true \&#xD;
+  -Dspring.native.remove-spel-support=true \&#xD;
+  -Dspring.native.remove-yaml-support=true \&#xD;
+  -cp $CP $MAINCLASS  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When you use this script, you need to provide three things: the build artifact, the main-class name, and the version. So, for this application, we can run it like this in the same directory: &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint shell"&gt;./compile.sh reactive com.example.reactive.ReactiveApplication 0.0.1-SNAPSHOT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And then go make a cup of coffee. A quick one. Because this will take at least three minutes. &lt;/p&gt;&lt;h2&gt;&lt;a href="#jpa" class="anchor" name="jpa"&gt;&lt;/a&gt;JPA&lt;/h2&gt;
+&lt;p&gt;Done? Good. Let&amp;rsquo;s build another example, this time using Spring Data JPA (Hibernate) and Spring MVC (with Apache Tomcat). &lt;/p&gt;
+&lt;p&gt;Go to the Spring Initializr, generate another project. This time, specify &lt;code&gt;JPA&lt;/code&gt;, &lt;code&gt;H2&lt;/code&gt;, &lt;code&gt;Web&lt;/code&gt; and then click &lt;code&gt;Generate&lt;/code&gt;. Here&amp;rsquo;s the code. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;package com.example.jpa;&#xD;
+&#xD;
+import lombok.AllArgsConstructor;&#xD;
+import lombok.Data;&#xD;
+import lombok.NoArgsConstructor;&#xD;
+import lombok.RequiredArgsConstructor;&#xD;
+import org.springframework.boot.SpringApplication;&#xD;
+import org.springframework.boot.autoconfigure.SpringBootApplication;&#xD;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration;&#xD;
+import org.springframework.boot.context.event.ApplicationReadyEvent;&#xD;
+import org.springframework.context.ApplicationListener;&#xD;
+import org.springframework.context.annotation.Bean;&#xD;
+import org.springframework.data.jpa.repository.JpaRepository;&#xD;
+import org.springframework.stereotype.Component;&#xD;
+import org.springframework.web.bind.annotation.GetMapping;&#xD;
+import org.springframework.web.bind.annotation.RestController;&#xD;
+&#xD;
+import javax.persistence.Entity;&#xD;
+import javax.persistence.GeneratedValue;&#xD;
+import javax.persistence.Id;&#xD;
+import java.util.Collection;&#xD;
+import java.util.stream.Stream;&#xD;
+&#xD;
+@SpringBootApplication(&#xD;
+        exclude = SpringDataWebAutoConfiguration.class,&#xD;
+        proxyBeanMethods = false&#xD;
+)&#xD;
+public class JpaApplication {&#xD;
+&#xD;
+    public static void main(String[] args) {&#xD;
+        SpringApplication.run(JpaApplication.class, args);&#xD;
+    }&#xD;
+&#xD;
+}&#xD;
+&#xD;
+&#xD;
+@RestController&#xD;
+@RequiredArgsConstructor&#xD;
+class CustomerRestController {&#xD;
+&#xD;
+    private final CustomerRepository customerRepository;&#xD;
+&#xD;
+    @GetMapping(&amp;quot;/customers&amp;quot;)&#xD;
+    Collection&amp;lt;Customer&amp;gt; customers() {&#xD;
+        return this.customerRepository.findAll();&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+@Component&#xD;
+@RequiredArgsConstructor&#xD;
+class Initializer implements ApplicationListener&amp;lt;ApplicationReadyEvent&amp;gt; {&#xD;
+&#xD;
+    private final CustomerRepository customerRepository;&#xD;
+&#xD;
+    @Override&#xD;
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {&#xD;
+        Stream.of(&amp;quot;Madhura&amp;quot;, &amp;quot;Dr. Syer&amp;quot;)&#xD;
+                .map(name -&amp;gt; new Customer(null, name))&#xD;
+                .map(this.customerRepository::save)&#xD;
+                .forEach(System.out::println);&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+interface CustomerRepository extends JpaRepository&amp;lt;Customer, Integer&amp;gt; {&#xD;
+&#xD;
+}&#xD;
+&#xD;
+@Entity&#xD;
+@Data&#xD;
+@AllArgsConstructor&#xD;
+@NoArgsConstructor&#xD;
+class Customer {&#xD;
+&#xD;
+    @Id&#xD;
+    @GeneratedValue&#xD;
+    private Integer id;&#xD;
+    private String name;&#xD;
+&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, this application uses JPA (and Hibernate). Hibernate, like Spring, can do a lot of dynamic things at runtime. Graal &lt;em&gt;hates&lt;/em&gt; that. So we need to get Hibernate to enhance the entities in our application at build time. Add the following Maven plugin to your build. &lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;&amp;lt;plugin&amp;gt;&#xD;
+    &amp;lt;groupId&amp;gt;org.hibernate.orm.tooling&amp;lt;/groupId&amp;gt;&#xD;
+    &amp;lt;artifactId&amp;gt;hibernate-enhance-maven-plugin&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;version&amp;gt;${hibernate.version}&amp;lt;/version&amp;gt;&#xD;
+    &amp;lt;executions&amp;gt;&#xD;
+        &amp;lt;execution&amp;gt;&#xD;
+            &amp;lt;configuration&amp;gt;&#xD;
+                &amp;lt;failOnError&amp;gt;true&amp;lt;/failOnError&amp;gt;&#xD;
+                &amp;lt;enableLazyInitialization&amp;gt;true&amp;lt;/enableLazyInitialization&amp;gt;&#xD;
+                &amp;lt;enableDirtyTracking&amp;gt;true&amp;lt;/enableDirtyTracking&amp;gt;&#xD;
+                &amp;lt;enableExtendedEnhancement&amp;gt;false&amp;lt;/enableExtendedEnhancement&amp;gt;&#xD;
+            &amp;lt;/configuration&amp;gt;&#xD;
+            &amp;lt;goals&amp;gt;&#xD;
+                &amp;lt;goal&amp;gt;enhance&amp;lt;/goal&amp;gt;&#xD;
+            &amp;lt;/goals&amp;gt;&#xD;
+        &amp;lt;/execution&amp;gt;&#xD;
+    &amp;lt;/executions&amp;gt;&#xD;
+&amp;lt;/plugin&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The last thing we&amp;rsquo;ll need to do is to tell Hibernate, at runtime, to &lt;em&gt;not&lt;/em&gt; do any enhancement. Create a file, &lt;code&gt;src/main/resources/hibernate.properties&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint properties"&gt;hibernate.bytecode.provider=none
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you can compile the application, the same as you did the reactive one, swapping out the main-class. Give it a few minutes. Now you should have two different applications in the &lt;code&gt;target/native-image&lt;/code&gt; directory of each application. Run them. &lt;/p&gt;
+&lt;p&gt;On my machine, the &lt;code&gt;reactive&lt;/code&gt; application spins up in 0.106 seconds. The &lt;code&gt;jpa&lt;/code&gt; application starts up in 0.181. Fast startup and - the best part - at runtime, these applications will take &lt;em&gt;tens&lt;/em&gt; of megabytes, not &lt;em&gt;hundreds&lt;/em&gt; (or &lt;em&gt;thousands&lt;/em&gt;) as a typical JVM-based application might. &lt;/p&gt;&lt;h2&gt;&lt;a href="#the-next-steps" class="anchor" name="the-next-steps"&gt;&lt;/a&gt;The Next Steps&lt;/h2&gt;
+&lt;p&gt;I can&amp;rsquo;t wait until the Spring Graal 0.8.0 release which will, among other things, baseline on some of the many improvements in Spring Framework 5.3, and possibly include a facility to convert &lt;code&gt;@Configuration&lt;/code&gt;-centric Java configurations into Spring&amp;rsquo;s &amp;ldquo;functional configuration,&amp;rdquo; which requires no proxies or reflection and which is more resource-efficient. I looked at functional configuration in another Spring Tips installment &lt;a href="https://www.youtube.com/watch?v=Q_P28p7XsbQ&amp;t=1s"&gt;more than three years ago&lt;/a&gt;. &lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>This Week in Spring - June 16th, 2020</title>
     <link rel="alternate" href="https://spring.io/blog/2020/06/16/this-week-in-spring-june-16th-2020" />
@@ -1210,24 +1508,6 @@ dependencies {&#xD;
   //...&#xD;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>A Bootiful Podcast: Dr. Malini Bhandaru on EdgeX and the opportunities for developers in the IoT space</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/05/28/a-bootiful-podcast-dr-malini-bhandaru-on-edgex-and-the-opportunities-for-developers-in-the-iot-space" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2020-05-28:4086</id>
-    <updated>2020-05-28T23:22:05Z</updated>
-    <content type="html">&lt;p&gt;Hi, Spring fans! In this episode &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks to Dr. Malini Bhandaru about EdgeX and the opportunities for developers in the IoT space.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href="https://www.edgexfoundry.org/"&gt;Edge X&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://fuji-docs.edgexfoundry.org/Ch-GettingStartedDevelopers.html"&gt;Getting started&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://www.intel.com/content/www/us/en/retail/open-retail-initiative.html"&gt;The Open Retail Initiative&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;iframe title="A Bootiful Podcast: Dr. Malini Bhandaru on EdgeX and the opportunities for developers in the IoT space" src="https://www.podbean.com/media/player/x4a2h-de0a1b?from=usersite&amp;vjs=1&amp;skin=1&amp;fonts=Helvetica&amp;auto=0&amp;download=1" height="315" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player"&gt;&lt;/iframe&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

@@ -33,7 +33,9 @@ public class MemberService implements IMemberService{
 	}
 	
 	@Override
+	@Transactional("txManager")
 	public void deleteMem(String userId) {
+		memRepository.deleteAu(userId);
 		memRepository.deleteMem(userId);
 	}
 	

@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>회원 상세 정보</h1>
-<form action="delete" method=post>
+
 <table border="1">
 <tr>
 <th>아이디</th>
@@ -30,7 +30,9 @@
 </tr>
 </table>
 <a href="update?userId=${mem.userId}">정보 수정</a><br>
-<input id="password" type="password"/>
+<form action="delete" method="get">
+<input type=hidden value=${mem.userId}/>
+<input name="password" type="password"/>
 <input type=submit value="정보 삭제">
 </form>
 </body>

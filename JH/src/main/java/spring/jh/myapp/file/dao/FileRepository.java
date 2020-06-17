@@ -30,6 +30,7 @@ JdbcTemplate jdbctemplate;
 			file.setFileSize(rs.getLong("file_size"));
 			file.setFileContentType(rs.getString("file_content_type"));
 			file.setFileUploadDate(rs.getTimestamp("file_upload_date"));
+			file.setUserId(rs.getString("userId"));
 			return file;
 		}
 	};
@@ -44,9 +45,9 @@ JdbcTemplate jdbctemplate;
 	public void uploadFile(FileVO file) {
 		String sql = "insert into files (file_id, directory_name, file_name, "
 				+ "file_size,"
-				+ "file_content_type, file_upload_date, file_data) values(?,?,?,?,?,sysdate,?)";
+				+ "file_content_type, file_upload_date, file_data, userId) values(?,?,?,?,?,sysdate,?)";
 		jdbctemplate.update(sql, file.getFileId(),file.getDirectoryName(),file.getFileName(),
-				file.getFileSize(), file.getFileContentType(), file.getFileData());
+				file.getFileSize(), file.getFileContentType(), file.getFileData(), file.getUserId());
 	}
 
 	@Override

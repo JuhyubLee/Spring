@@ -1,9 +1,12 @@
 package spring.jh.myapp.member.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,20 +36,20 @@ public class MemberController {
 	@GetMapping("/insert")
 	public void insert(Model model) {
 		model.addAttribute("mem", new MemberVO());
-		model.addAttribute("memmessage", "insert");
+		model.addAttribute("message", "insert");
 	}
 	
 	@PostMapping("/insert")
 	public String insert(@ModelAttribute("mem")  @Valid MemberVO member, Model model,
 			BindingResult result, RedirectAttributes redirectAttributes) {
 		if(result.hasErrors()) {
-		model.addAttribute("memmessage", "insert");
+		model.addAttribute("message", "insert");
 		return "member/insert";
 		}
 		member.setPassword(bpe.encode(member.getPassword()));
 		member.setEnabled(1);
 		memberService.insertMember(member);
-		redirectAttributes.addFlashAttribute("memmessage","회원 가입 완료");
+		redirectAttributes.addFlashAttribute("message","회원 가입 완료");
 		return "redirect:/login";
 	}
 
@@ -61,7 +64,7 @@ public class MemberController {
 	@GetMapping("/update")
 	public String updateMem(String userId, Model model) {
 		model.addAttribute("mem", memberService.getMember(userId));
-		model.addAttribute("memmessage", "update");
+		model.addAttribute("message", "update");
 		return "member/insert";
 	}
 	
@@ -71,20 +74,29 @@ public class MemberController {
 		mem.setPassword(bpe.encode(mem.getPassword()));
 		mem.setEnabled(1);
 		memberService.updateMem(mem);
-		redirectAttributes.addFlashAttribute("memmessage","회원 수정 완료");
+		redirectAttributes.addFlashAttribute("message","회원 수정 완료");
 		return "redirect:/member/view?userId="+mem.getUserId();
 	}
 	
-	@GetMapping("/delete")
-	public String deleteMem(String userId, Model model) {
-		model.addAttribute("mem", memberService.getMember(userId));
-		return "member/delete";
+	@PostMapping("/delete")
+	public String deleteMem(String userId, Model model, HttpSession session) {
+		Authentication authentication =
+				SecurityContextHolder.getContext().getAuthentication();
+		memberService.deleteMem(authentication.getName());
+		session.invalidate();
+		return "redirect:/";
 	}
 	
-	@PostMapping("/delete")
-	public String deleteMem(Model model, String userId) {
-		memberService.deleteMem(userId);
-		return "redirect:/hr/login";
+	@GetMapping("/delete")
+	public String deleteMem(String password, Model model, String userId) {
+		Authentication authentication =
+				SecurityContextHolder.getContext().getAuthentication();
+		String dbpw = memberService.getPassword(authentication.getName());
+		if(!bpe.matches(password, dbpw)) {
+			model.addAttribute("message", "비밀번호가 틀렸습니다.");
+			return "redirect:/member/view?userId="+authentication.getName();
+		}
+		return "member/delete";
 	}
 
 }

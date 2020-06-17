@@ -6,13 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Member ${memmessage}</title>
+<title>Member ${message}</title>
 </head>
 <body>
-<h1>사원 정보 ${memmessage eq "insert" ? "입력" : "수정" }</h1>
+<h1>사원 정보 ${message eq "insert" ? "입력" : "수정" }</h1>
 <c:choose>
-<c:when test="${memmessage eq 'insert'}">
-<form:form action="./${memmessage}" method="post"
+<c:when test="${message eq 'insert'}">
+<form:form action="./${message}" method="post"
 modelAttribute="mem">
 <table border=1>
 <tr>
@@ -31,13 +31,13 @@ modelAttribute="mem">
 <td>주소</td><td><input type=text name=address></td>
 </tr>
 <tr>
-<th colspan=2><input type=submit value="${memmessage eq 'insert' ? '입력' : '수정'}">
+<th colspan=2><input type=submit value="${message eq 'insert' ? '입력' : '수정'}">
 <input type=reset value="취소"></th>
 </table>
 </form:form>
 </c:when>
-<c:when test="${memmessage eq 'update'}">
-<form action="./${memmessage}" method=post>
+<c:when test="${message eq 'update'}">
+<form action="./${message}" method=post>
 <table border=1>
 <tr>
 <td>아이디</td>
@@ -61,7 +61,7 @@ ${empty mem ? "" : "readonly"}></td>
 <td><input type=text name=address value="${mem.address}"></td>
 </tr>
 <tr>
-<th colspan=2><input type=submit value="${memmessage eq 'insert' ? '입력' : '수정'}">
+<th colspan=2><input type=submit value="${message eq 'insert' ? '입력' : '수정'}">
 <input type=reset value="취소"></th>
 </tr>
 </table>
