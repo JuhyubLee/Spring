@@ -45,11 +45,13 @@ public class LoginController {
 			session.setAttribute("userId", member.getUserId());
 			session.setAttribute("auth", member.getAuth());
 			session.setAttribute("startTime", LocalDateTime.now());
+			model.addAttribute("memUser", member.getUserId());
 			String url = "/";
 			if(session.getAttribute("url")!=null) {
 				url = (String)session.getAttribute("url");
 			}
-			return "redirect:"+url;
+			return "redirect:"+url+model;
 		}
 	}
+	
 }

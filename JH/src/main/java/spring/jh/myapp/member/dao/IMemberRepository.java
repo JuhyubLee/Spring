@@ -8,4 +8,7 @@ public interface IMemberRepository {
 	void insertAuth(String userId);
 	MemberVO getMember(String userId);
 	String getPassword(String userId);
+	void updateMem(MemberVO mem);
+	void deleteMem(String userId);
+	void deleteAu(String userId);
 }

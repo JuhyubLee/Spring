@@ -23,4 +23,5 @@ public interface IEmpService {
 	List<Map<String,Object>> getAllManagerId();
 	List<EmpVO> getTopSalary();
 	List<JobVO> getAllJobId();
+	
 }

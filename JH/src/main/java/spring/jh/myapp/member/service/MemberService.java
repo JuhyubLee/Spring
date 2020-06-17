@@ -22,7 +22,23 @@ public class MemberService implements IMemberService{
 	public MemberVO getMember(String userId) {
 		return memRepository.getMember(userId);
 	}
+	
 	public String getPassword(String userId) {
 		return memRepository.getPassword(userId);
+	}
+	
+	@Override
+	public void updateMem(MemberVO mem) {
+		memRepository.updateMem(mem);
+	}
+	
+	@Override
+	public void deleteMem(String userId) {
+		memRepository.deleteMem(userId);
+	}
+	
+	@Override
+	public void deleteAu(String userId) {
+		memRepository.deleteAu(userId);
 	}
 }

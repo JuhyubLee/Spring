@@ -53,5 +53,11 @@ class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </mvc:argument-resolvers>
 </mvc:annotation-driven>
 
+<bean id="multipartResolver"
+class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="maxUploadSize">
+		<value>50000000</value>
+	</property>
+</bean>
 
 </beans>

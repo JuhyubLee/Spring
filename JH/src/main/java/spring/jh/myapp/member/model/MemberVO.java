@@ -109,4 +109,10 @@ public class MemberVO implements UserDetails{
 	public boolean isEnabled() {
 		return this.enabled==0 ? false : true;
 	}
+
+	@Override
+	public String toString() {
+		return "MemberVO [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email
+				+ ", address=" + address + ", enabled=" + enabled + ", auth=" + auth + "]";
+	}
 }

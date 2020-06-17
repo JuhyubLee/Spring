@@ -30,6 +30,15 @@ public class MemberRepository implements IMemberRepository{
 	}
 	
 	@Override
+	public void updateMem(MemberVO mem) {
+		String sql = "update member set name=?,"
+				+ "password=?, email=?, address=? where userid=?";
+		jt.update(sql, mem.getName(), mem.getPassword(), mem.getEmail(),
+				mem.getAddress(), mem.getUserId());
+	}
+	
+	
+	@Override
 	public MemberVO getMember(String userId) {
 		String sql = "select m.userid, name, password, email, address,"
 				+ "enabled, authority from member m "
@@ -61,4 +70,17 @@ public class MemberRepository implements IMemberRepository{
 		String sql = "select password from member where userid=?";
 		return jt.queryForNullableObject(sql, String.class,userId);
 	}
+	
+	@Override
+	public void deleteMem(String userId) {
+		String sql = "delete from member where userid=?";
+		jt.update(sql, userId);
+	}
+	
+	@Override
+	public void deleteAu(String userId) {
+		String sql = "delete from authorities where userid=?";
+		jt.update(sql, userId);
+	}
+	
 }

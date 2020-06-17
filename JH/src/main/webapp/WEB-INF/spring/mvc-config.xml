@@ -9,17 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 
-<mvc:annotation-driven>
-<mvc:message-converters
-register-defaults="false">
-<bean id="jacksonMessageConverter"
-class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-<property name="objectMapper">
-<bean class="spring.jh.myapp.util.MyObjectMapper" />	
-</property>
-</bean>
-</mvc:message-converters>
-</mvc:annotation-driven>
+
 
 
 <!-- Security -->
@@ -42,12 +32,7 @@ class="org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 </bean>
 
 
-<bean id="multipartResolver"
-class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	<property name="maxUploadSize">
-		<value>50000000</value>
-	</property>
-</bean>
+
 
 <!-- Login Interceptor -->
 <mvc:interceptors>
@@ -60,4 +45,5 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
 <context:component-scan base-package="spring.jh.myapp.hr.controller"/>
 <context:component-scan base-package="spring.jh.myapp.member.controller"/>
+<context:component-scan base-package="spring.jh.myapp.file.controller"/>
 </beans>

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.jh.myapp.hr.dao.IEmpService;
 import spring.jh.myapp.hr.model.EmpVO;
 
+@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER') or hasAnyRole('ROLE_ADMIN')")
 @Controller
 @RequestMapping("/hr")
 public class EmpController {
@@ -27,9 +28,8 @@ public class EmpController {
 	@Autowired
 	IEmpService empService;
 	
-	
 	// INDEX
-	@GetMapping("/index")
+	@RequestMapping("/index")
 	public void index(Model model) {
 	}
 	
@@ -134,20 +134,7 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	
-	// JSON
-	@RequestMapping("/json/list")
-	public @ResponseBody List<EmpVO> getAllEmployees(){
-		List<EmpVO> empList = empService.getEmpList();
-		return empList;
-	}
-	
-	// JSON
-	@RequestMapping("/json/{employeeId}")
-	public @ResponseBody EmpVO getEmployees(@PathVariable int employeeId) {
-		EmpVO emp = empService.getEmpInfo(employeeId);
-		return emp;
-	}
-	
+
 
 
 	
