@@ -37,10 +37,6 @@ public class LoginController {
 	public String loginCheck(Model model, HttpSession session) {
 		Authentication authentication =
 				SecurityContextHolder.getContext().getAuthentication();
-				System.out.println(authentication.getPrincipal());
-				System.out.println(authentication.getCredentials());
-				System.out.println(authentication.getAuthorities());
-				System.out.println(authentication.isAuthenticated());
 		if(!(authentication.getDetails() instanceof MemberVO)) {
 			model.addAttribute("message","아이디 또는 비밀번호가 다릅니다.");
 			return "login";
@@ -49,11 +45,13 @@ public class LoginController {
 			session.setAttribute("userId", member.getUserId());
 			session.setAttribute("auth", member.getAuth());
 			session.setAttribute("startTime", LocalDateTime.now());
+			model.addAttribute("memUser", member.getUserId());
 			String url = "/";
 			if(session.getAttribute("url")!=null) {
 				url = (String)session.getAttribute("url");
 			}
-			return "redirect:"+url;
+			return "redirect:"+url+model;
 		}
 	}
+	
 }

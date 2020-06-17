@@ -11,7 +11,14 @@ public class FileVO {
 	private String fileContentType;
 	private Timestamp fileUploadDate;
 	private byte[] fileData;
+	private String userId;
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public int getFileId() {
 		return fileId;
 	}

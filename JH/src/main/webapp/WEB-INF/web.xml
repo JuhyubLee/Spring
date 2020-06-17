@@ -22,8 +22,8 @@
 		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
 	<filter>
-		<display-name>springMultipartFilter</display-name>
-		<filter-name>springMultipartFilter</filter-name>
+		<display-name>MultipartFilter</display-name>
+		<filter-name>MultipartFilter</filter-name>
 		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
 		<init-param>
 			<param-name>multipartResolverBeanName</param-name>
@@ -31,7 +31,7 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>springMultipartFilter</filter-name>
+		<filter-name>MultipartFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter>

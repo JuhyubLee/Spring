@@ -134,20 +134,7 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	
-	// JSON
-	@RequestMapping("/json/list")
-	public @ResponseBody List<EmpVO> getAllEmployees(){
-		List<EmpVO> empList = empService.getEmpList();
-		return empList;
-	}
-	
-	// JSON
-	@RequestMapping("/json/{employeeId}")
-	public @ResponseBody EmpVO getEmployees(@PathVariable int employeeId) {
-		EmpVO emp = empService.getEmpInfo(employeeId);
-		return emp;
-	}
-	
+
 
 
 	

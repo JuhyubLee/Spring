@@ -19,10 +19,10 @@ value="${fn:toUpperCase(fn:substring(file.fileName, len-4, len))}" />
 (fileType eq '.PNG') or (fileType eq '.GIF')}">
 파일 이름 : <img src='<c:url value="/img/${file.fileId}"/>' width="100"
 class="img-thumbnail"><br>
-<a href="../img${file.fileId}">${file.fileName}</a><br>
+<a href="../img/${file.fileId}">${file.fileName}</a><br>
 </c:when>
 <c:otherwise>
-파일 이름 : <img src='<c:url value="/resources/images/straw.jpg"/>'
+파일 이름 : <img src='<c:url value="/resources/images/dog1.jpg"/>'
 width="100" class="img-thumbnail">
 <a href="../pds/${file.fileId}">${file.fileName}</a><br>
 </c:otherwise>

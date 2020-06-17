@@ -155,7 +155,7 @@ dept.departmentId ? "selected" : "" }>${dept.departmentName}</option>
 </select></td>
 </tr>
 <tr>
-<th colspan=2><input type=submit value="${message eq "insert" ? "입력" : "수정"}">
+<th colspan=2><input type=submit value="${message eq 'insert' ? '입력' : '수정'}">
 <input type=reset value="취소"></th>
 </tr>
 </table>
