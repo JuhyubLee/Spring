@@ -10,7 +10,6 @@
 </head>
 <body>
 <h1>회원 상세 정보</h1>
-
 <table border="1">
 <tr>
 <th>아이디</th>

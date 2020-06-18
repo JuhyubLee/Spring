@@ -35,6 +35,8 @@ public class MemberService implements IMemberService{
 	@Override
 	@Transactional("txManager")
 	public void deleteMem(String userId) {
+		memRepository.deleteFile(userId);
+		memRepository.updateFile(userId);
 		memRepository.deleteAu(userId);
 		memRepository.deleteMem(userId);
 	}
@@ -42,5 +44,15 @@ public class MemberService implements IMemberService{
 	@Override
 	public void deleteAu(String userId) {
 		memRepository.deleteAu(userId);
+	}
+	
+	@Override
+	public void updateFile(String userId) {
+		memRepository.updateFile(userId);
+	}
+	
+	@Override
+	public void deleteFile(String userId) {
+		memRepository.deleteFile(userId);
 	}
 }

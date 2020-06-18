@@ -83,4 +83,21 @@ public class MemberRepository implements IMemberRepository{
 		jt.update(sql, userId);
 	}
 	
+	@Override
+	public void deleteFile(String userId) {
+		String sql = "delete from files where userid=?";
+		jt.update(sql, userId);
+	}
+	
+	@Override
+	public void updateFile(String userId) {
+		String sql = "update files f set f.userid=null where userid=(select userid from member where userid=?)";
+		jt.update(sql, userId);
+	}
+	
+	@Override
+	public List<MemberVO> getMemList(){
+		String sql = "select m.userid, name, email, address, enabled, a.authority from member m join authorities a on (m.userid=a.userid)";
+		return jt.query(sql, new ResultSetExtractor<MemberVO>());
+	}
 }

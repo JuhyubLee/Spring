@@ -45,7 +45,7 @@ JdbcTemplate jdbctemplate;
 	public void uploadFile(FileVO file) {
 		String sql = "insert into files (file_id, directory_name, file_name, "
 				+ "file_size,"
-				+ "file_content_type, file_upload_date, file_data, userId) values(?,?,?,?,?,sysdate,?)";
+				+ "file_content_type, file_upload_date, file_data, userId) values(?,?,?,?,?,sysdate,?,?)";
 		jdbctemplate.update(sql, file.getFileId(),file.getDirectoryName(),file.getFileName(),
 				file.getFileSize(), file.getFileContentType(), file.getFileData(), file.getUserId());
 	}
@@ -53,7 +53,7 @@ JdbcTemplate jdbctemplate;
 	@Override
 	public FileVO getFile(int fileId) {
 		String sql = "select file_id, directory_name, file_name,"
-				+ "file_size, file_content_type, file_upload_date, file_data "
+				+ "file_size, file_content_type, file_upload_date, file_data, userid "
 				+ "from files where file_id=?";
 		return jdbctemplate.queryForObject(sql, new RowMapper<FileVO>() {
 			@Override
@@ -80,7 +80,7 @@ JdbcTemplate jdbctemplate;
 	@Override
 	public List<FileVO> getFileList(String directoryName) {
 		String sql = "select file_id,directory_name,file_name,"
-				+ "file_size,file_content_type,file_upload_date "
+				+ "file_size,file_content_type,file_upload_date, userid "
 				+ "from files "
 				+ "where directory_name=? "
 				+ "order by file_upload_date desc";
@@ -90,7 +90,7 @@ JdbcTemplate jdbctemplate;
 	@Override
 	public List<FileVO> getAllFileList() {
 		String sql = "select file_id, directory_name, file_name, "
-				+ "file_size, file_content_type, file_upload_date "
+				+ "file_size, file_content_type, file_upload_date, userid "
 				+ "from files order by file_upload_date desc";
 		return jdbctemplate.query(sql, fileMapper);
 	}

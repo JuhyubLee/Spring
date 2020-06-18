@@ -11,4 +11,6 @@ public interface IMemberRepository {
 	void updateMem(MemberVO mem);
 	void deleteMem(String userId);
 	void deleteAu(String userId);
+	void updateFile(String userId);
+	void deleteFile(String userId);
 }
