@@ -10,8 +10,8 @@
 </head>
 <body>
 <h1>회원 상세 정보</h1>
-
 <table border="1">
+
 <tr>
 <th>아이디</th>
 <td>${mem.userId}</td>
@@ -28,6 +28,13 @@
 <th>주소</th>
 <td>${mem.address}</td>
 </tr>
+<tr>
+<th>권한</th>
+<td>${mem.authorities}</td>
+</tr>
+${message}
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+</sec:authorize>
 </table>
 <a href="update?userId=${mem.userId}">정보 수정</a><br>
 <form action="delete" method="get">

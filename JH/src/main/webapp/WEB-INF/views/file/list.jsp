@@ -17,6 +17,7 @@
 <tr>
 <th>Id</th>
 <td>경로</td>
+<td>작성자</td>
 <td>그림</td>
 <td>파일명</td>
 <td>크기</td>
@@ -30,6 +31,7 @@
 <tr>
 <td><input type=checkbox name=fileIds value="${file.fileId}">${file.fileId}</td>
 <td>${file.directoryName}</td>
+<td>${file.userId}</td>
 <td>
 <c:choose>
 <c:when test="${(fileType eq '.JPG') or (fileType eq 'JPEG') or (fileType eq '.PNG') or (fileType eq '.GIF')}">

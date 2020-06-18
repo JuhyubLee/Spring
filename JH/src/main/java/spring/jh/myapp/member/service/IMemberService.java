@@ -1,5 +1,7 @@
 package spring.jh.myapp.member.service;
 
+import java.util.List;
+
 import spring.jh.myapp.member.model.MemberVO;
 
 public interface IMemberService {
@@ -10,5 +12,8 @@ public interface IMemberService {
 	void updateMem(MemberVO mem);
 	void deleteMem(String userId);
 	void deleteAu(String userId);
+	void updateFile(String userId);
+	void deleteFile(String userId);
+	List<MemberVO> getMemList();
 }
 

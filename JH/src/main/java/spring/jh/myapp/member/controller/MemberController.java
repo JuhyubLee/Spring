@@ -1,11 +1,14 @@
 package spring.jh.myapp.member.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -56,10 +59,18 @@ public class MemberController {
 	@RequestMapping("/{userId}")
 	public String view(String userId, Model model) {
 		MemberVO mem = memberService.getMember(userId);
+		if(mem.getAuth().equals(new SimpleGrantedAuthority(mem.getAuth()))) {
+			
+			model.addAttribute("message", "user");
+		}else {
+			model.addAttribute("message", "admin");
+		}
 		model.addAttribute("mem", mem);
 		return "member/view";
 
 	}
+
+	
 	
 	@GetMapping("/update")
 	public String updateMem(String userId, Model model) {
@@ -78,6 +89,19 @@ public class MemberController {
 		return "redirect:/member/view?userId="+mem.getUserId();
 	}
 	
+	@GetMapping("/delete")
+	public String deleteMem(String password, Model model, String userId) {
+		Authentication authentication =
+				SecurityContextHolder.getContext().getAuthentication();
+		String dbpw = memberService.getPassword(authentication.getName());
+		if(!bpe.matches(password, dbpw)) {
+			model.addAttribute("message", "wrong");
+			return "member/delete";
+		}
+		model.addAttribute("message", "right");
+		return "member/delete";
+	}
+	
 	@PostMapping("/delete")
 	public String deleteMem(String userId, Model model, HttpSession session) {
 		Authentication authentication =
@@ -87,16 +111,14 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/delete")
-	public String deleteMem(String password, Model model, String userId) {
-		Authentication authentication =
-				SecurityContextHolder.getContext().getAuthentication();
-		String dbpw = memberService.getPassword(authentication.getName());
-		if(!bpe.matches(password, dbpw)) {
-			model.addAttribute("message", "비밀번호가 틀렸습니다.");
-			return "redirect:/member/view?userId="+authentication.getName();
-		}
-		return "member/delete";
+	@RequestMapping("/list")
+	public String getAllMembers(Model model) {
+		List<MemberVO> memList = memberService.getMemList();
+		model.addAttribute("memList", memList);
+		return "member/list";
 	}
+	
+
+	
 
 }

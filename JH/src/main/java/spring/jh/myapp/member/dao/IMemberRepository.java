@@ -1,5 +1,7 @@
 package spring.jh.myapp.member.dao;
 
+import java.util.List;
+
 import spring.jh.myapp.member.model.MemberVO;
 
 public interface IMemberRepository {
@@ -11,4 +13,7 @@ public interface IMemberRepository {
 	void updateMem(MemberVO mem);
 	void deleteMem(String userId);
 	void deleteAu(String userId);
+	void updateFile(String userId);
+	void deleteFile(String userId);
+	List<MemberVO> getMemList();
 }

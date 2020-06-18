@@ -1,5 +1,7 @@
 package spring.jh.myapp.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ public class MemberService implements IMemberService{
 	@Override
 	@Transactional("txManager")
 	public void deleteMem(String userId) {
+		memRepository.deleteFile(userId);
+		memRepository.updateFile(userId);
 		memRepository.deleteAu(userId);
 		memRepository.deleteMem(userId);
 	}
@@ -42,5 +46,20 @@ public class MemberService implements IMemberService{
 	@Override
 	public void deleteAu(String userId) {
 		memRepository.deleteAu(userId);
+	}
+	
+	@Override
+	public void updateFile(String userId) {
+		memRepository.updateFile(userId);
+	}
+	
+	@Override
+	public void deleteFile(String userId) {
+		memRepository.deleteFile(userId);
+	}
+	
+	@Override
+	public List<MemberVO> getMemList() {
+		return memRepository.getMemList();
 	}
 }

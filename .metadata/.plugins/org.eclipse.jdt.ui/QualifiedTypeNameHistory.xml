@@ -38,6 +38,8 @@
 <fullyQualifiedTypeName name="org.springframework.http.HttpStatus"/>
 <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartHttpServletRequest"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.springframework.jdbc.core.RowMapper"/>
+<fullyQualifiedTypeName name="org.springframework.security.core.authority.SimpleGrantedAuthority"/>
 </qualifiedTypeNameHistroy>

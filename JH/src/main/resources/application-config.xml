@@ -19,7 +19,15 @@ location="classpath:db/jdbc.properties"/>
 
 
 <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
-
+<bean id="memberAuthenticationProvider" class="spring.jh.myapp.member.auth.MemberAuthenticationProvider">
+<security:authentication-manager>
+<security:authentication-provider>
+	<security:user-service>
+		<security:user name="master2" password="master2" authorities="ROLE_MASTER"/>
+	</security:user-service>
+</security:authentication-provider>
+</security:authentication-manager>
+</bean>
 <!-- DATA BASE -->
 <bean id="dataSource"
 class="org.apache.commons.dbcp2.BasicDataSource">
