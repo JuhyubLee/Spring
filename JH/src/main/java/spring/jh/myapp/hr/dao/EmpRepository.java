@@ -42,30 +42,35 @@ public class EmpRepository implements IEmpRepository {
 		}
 	}
 	
+	// GET EMP COUNT
 	@Override
 	public int getEmpCount() {
 		String sql = "select count(*) from employees";
 		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 	
+	// GET EMP COUNT (Departments)
 	@Override
 	public int getEmpCount(int deptId) {
 		String sql = "select count(*) from employees where department_id=?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, deptId);
 	}
 	
+	// GET EMP LIST
 	@Override
 	public List<EmpVO> getEmpList(){
 		String sql = "select * from employees emp join jobs jb on emp.job_id = jb.job_id order by 1 ASC";
 		return jdbcTemplate.query(sql, new EmpMapper());
 	}
 	
+	// GET EMP INFO
 	@Override
 	public EmpVO getEmpInfo(int empId) {
 		String sql = "select * from employees emp join jobs jb on emp.job_id = jb.job_id where employee_id=?";
 		return jdbcTemplate.queryForObject(sql, new EmpMapper(), empId);
 	}
 	
+	// GET Department INFO
 	public DeptVO getDeptInfo(int deptId) {
 		String sql = "select * from departments where department_id=?";
 		return jdbcTemplate.queryForObject(sql, new RowMapper<DeptVO>(){
@@ -82,7 +87,7 @@ public class EmpRepository implements IEmpRepository {
 		}, deptId);
 	}
 	
-	
+	// GET TOP SALARY
 	@Override
 	public List<EmpVO> getTopSalary() {
 		String sql = "select * from employees e join jobs jb on e.job_id = jb.job_id where"
@@ -91,6 +96,7 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.query(sql, new EmpMapper());
 	}
 	
+	// INSERT EMP
 	@Override
 	public void insertEmp(EmpVO emp) {
 		String sql = "insert into employees values(?,?,?,?,?,sysdate,?,?,?,?,?)";
@@ -100,7 +106,7 @@ public class EmpRepository implements IEmpRepository {
 				emp.getManagerId(), emp.getDepartmentId());
 	}
 	
-	
+	  // UPDATE EMP
 	  @Override 
 	  public void updateEmp(EmpVO emp) { String sql =
 	  "update employees set first_name=?, last_name=?," +
@@ -111,25 +117,29 @@ public class EmpRepository implements IEmpRepository {
 	  emp.getHireDate(), emp.getJobId(), emp.getSalary(), emp.getCommissionPct(),
 	  emp.getManagerId(), emp.getDepartmentId(), emp.getEmployeeId()); }
 	 
-	
+	// DELETE EMP
 	@Override
 	public void deleteEmp(int empId) {
 		String sql = "delete from employees where employee_id=?";
 		jdbcTemplate.update(sql, empId);
 	}
 	
+	// DELETE JOB History
 	@Override
 	public void deleteJobHistory(int empId) {
 		String sql = "delete from job_history where employee_id=?";
 		jdbcTemplate.update(sql, empId);
 	}
 	
+	// UPDATE MANAGER (NULL)
 	@Override
 	public void updateManager(int empId) {
-		String sql = "update employees e set e.manager_id=null where manager_id=(select employee_id from employees where employee_id=?)";
+		String sql = "update employees e set e.manager_id=null "
+				+ "where manager_id=(select employee_id from employees where employee_id=?)";
 		jdbcTemplate.update(sql, empId);
 	}
 	
+	// GET ALL Department ID
 	@Override
 	public List<Map<String, Object>> getAllDeptId(){
 		String sql = "select department_id as departmentId,"
@@ -137,7 +147,7 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.queryForList(sql);
 	}
 	
-	
+	// GET ALL Manager ID
 	@Override
 	public List<Map<String, Object>> getAllManagerId() {
 		String sql = "select employee_id as managerId,"
@@ -147,6 +157,7 @@ public class EmpRepository implements IEmpRepository {
 		return jdbcTemplate.queryForList(sql);
 	}
 
+	// GET ALL Job ID
 	@Override
 	public List<JobVO> getAllJobId(){
 		String sql = "select job_id as jobId, job_title as jobTitle "

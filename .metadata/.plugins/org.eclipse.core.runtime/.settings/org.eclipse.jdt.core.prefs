@@ -1,5 +1,12 @@
 eclipse.preferences.version=1
 org.eclipse.jdt.core.builder.resourceCopyExclusionFilter=
+org.eclipse.jdt.core.classpathVariable.ASPECTJRT_LIB=C\:/Users/scall/.p2/pool/plugins/org.aspectj.runtime_1.9.2.202002051807.jar
+org.eclipse.jdt.core.classpathVariable.ECLIPSE_HOME=C\:/Users/scall/OneDrive/\uBC14\uD0D5 \uD654\uBA74/\uD504\uB85C\uADF8\uB798\uBC0D/Spring/eclipse/eclipse/
+org.eclipse.jdt.core.classpathVariable.JRE_LIB=C\:/Program Files/Java/jre1.8.0_241/lib/rt.jar
+org.eclipse.jdt.core.classpathVariable.JRE_SRC=
+org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=
+org.eclipse.jdt.core.classpathVariable.JUNIT_HOME=C\:/Users/scall/.p2/pool/plugins/org.junit_4.13.0.v20200204-1500.jar
+org.eclipse.jdt.core.classpathVariable.M2_REPO=C\:/Users/scall/.m2/repository
 org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8

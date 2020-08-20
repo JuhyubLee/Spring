@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<context:component-scan base-package="com.coderby.myapp"/>
+<aop:aspectj-autoproxy/>
+
+<bean id="bcryptPasswordEncoder" 
+class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+<bean id="propertyConfigurer" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+	<constructor-arg ref="configurationEncryptor" />
+	<property name="locations">
+		<list>
+			<value>classpath:/db/jdbc.properties</value>
+		</list>
+	</property>
+</bean>
+
+<bean id="environmentVariableConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+	<property name="algorithm" value="PBEWithMD5AndDES"/>
+	<property name="passwordEnvName" value="APP_ENCRYPTION_PASSWORD"/>
+</bean>
+
+<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+	<property name="config" ref="environmentVariableConfiguration" />
+	<property name="password" value="djadudqja" />
+</bean>
+
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<property name="driverClassName" value="${jdbc.driverClassName}"/>
+	<property name="url" value="${jdbc.url}"/>
+	<property name="username" value="${jdbc.username}"/>
+	<property name="password" value="${jdbc.password}"/>
+</bean>
+
+<bean id="jdbcTemplate"
+	class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"/>
+</bean>
+
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>50000000</value>
+		</property>
+</bean>
+
+<tx:annotation-driven transaction-manager="txManager"/>
+<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+</beans>

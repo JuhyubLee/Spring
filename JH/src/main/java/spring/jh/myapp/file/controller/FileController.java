@@ -2,15 +2,20 @@ package spring.jh.myapp.file.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +29,7 @@ import spring.jh.myapp.file.dao.IFileService;
 import spring.jh.myapp.file.model.FileVO;
 
 @Controller
+@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MASTER')")
 public class FileController {
 
 	@Autowired
@@ -54,12 +60,12 @@ public class FileController {
 				FileVO newFile = new FileVO();
 				Authentication authentication =
 						SecurityContextHolder.getContext().getAuthentication();
+				newFile.setUserId(authentication.getName());
 				newFile.setDirectoryName(dir);
 				newFile.setFileName(file.getOriginalFilename());
 				newFile.setFileSize(file.getSize());
 				newFile.setFileContentType(file.getContentType());
 				newFile.setFileData(file.getBytes());
-				newFile.setUserId(authentication.getName());
 				fileService.uploadFile(newFile);
 			}
 		}catch(IOException e) {
@@ -94,7 +100,16 @@ public class FileController {
 	
 	// FILE DELETE
 	@RequestMapping("/file/delete/{fileId}")
-	public String deleteFile(@PathVariable int fileId) {
+	public String deleteFile(@PathVariable int fileId, String userId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				|| auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MASTER"))) {
+			
+		}else {
+				if(!(auth.getName().equals(userId))) {
+					throw new RuntimeException("파일 삭제는 관리자 또는 업로더만 가능합니다.");
+				}
+		}
 		fileService.deleteFile(fileId);
 		return "redirect:/file/list";
 	}
@@ -115,10 +130,30 @@ public class FileController {
 	}
 	
 	// FILE DIRECTORY UPDATE
+	@PreAuthorize("#username == principal.name or hasRole('ROLE_ADMIN')")
 	@RequestMapping("/file/updateDir")
-	public String updateDirectory(int[] fileIds, String directoryName) {
+	public String updateDirectory(int[] fileIds, String[] userId, String directoryName) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				|| auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MASTER"))) {
+			
+		}else {
+			for(String fileUserId : userId) {
+				if(!(auth.getName().equals(fileUserId))) {
+					throw new RuntimeException("파일 수정은 관리자 또는 업로더만 가능합니다.");
+				}
+			}
+		}
 		fileService.updateDirectory(fileIds, directoryName);
 		return "redirect:/file/list";
 	}
-
+	
+	// ERROR HANDLER
+	@ExceptionHandler(RuntimeException.class)
+	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
+		model.addAttribute("url", request.getRequestURI());
+		model.addAttribute("exception", ex);
+		return "error/runtime";
+	}
+	
 }

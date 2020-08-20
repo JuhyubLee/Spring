@@ -17,7 +17,29 @@ public class MemberVO implements UserDetails{
 	private String address;
 	private int enabled;
 	private String auth;
+	private int setStartIndex;
+	private int setCntPerPage;
 	
+	public int getSetStartIndex() {
+		return setStartIndex;
+	}
+
+
+	public void setSetStartIndex(int setStartIndex) {
+		this.setStartIndex = setStartIndex;
+	}
+
+
+	public int getSetCntPerPage() {
+		return setCntPerPage;
+	}
+
+
+	public void setSetCntPerPage(int setCntPerPage) {
+		this.setCntPerPage = setCntPerPage;
+	}
+
+
 	@Override
 	public Collection<? extends GrantedAuthority>
 	getAuthorities(){
@@ -110,9 +132,11 @@ public class MemberVO implements UserDetails{
 		return this.enabled==0 ? false : true;
 	}
 
+
 	@Override
 	public String toString() {
 		return "MemberVO [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email
 				+ ", address=" + address + ", enabled=" + enabled + ", auth=" + auth + "]";
 	}
+
 }

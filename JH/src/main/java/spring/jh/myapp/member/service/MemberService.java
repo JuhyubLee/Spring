@@ -1,6 +1,9 @@
 package spring.jh.myapp.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +14,13 @@ import spring.jh.myapp.member.model.MemberVO;
 public class MemberService implements IMemberService{
 
 	@Autowired
+	@Qualifier("IMemberRepository")
 	IMemberRepository memRepository;
 	
+	@Override
+	public boolean checkId(String userId) {
+		return memRepository.checkId(userId);
+	}
 	@Transactional("txManager")
 	public void insertMember(MemberVO mem) {
 		memRepository.insertMember(mem);
@@ -54,5 +62,25 @@ public class MemberService implements IMemberService{
 	@Override
 	public void deleteFile(String userId) {
 		memRepository.deleteFile(userId);
+	}
+	
+	@Override
+	public List<MemberVO> getMemList(int page) {
+		return memRepository.getMemList(page);
+	}
+	
+	@Override
+	public void updateEnable(MemberVO mem) {
+		memRepository.updateEnable(mem);
+	}
+	
+	@Override
+	public void updateAuthority(MemberVO mem) {
+		memRepository.updateAuthority(mem);
+	}
+	
+	@Override
+	public int getMemListCnt(MemberVO mem) {
+		return memRepository.getMemListCnt(mem);
 	}
 }

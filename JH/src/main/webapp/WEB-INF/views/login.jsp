@@ -21,8 +21,13 @@ ${message}
 <sec:authentication property="principal" var="user"/>
 ${user.username}님 안녕하세요.<br>
 <a href="<c:url value="file"/>">파일 업/다운</a><br>
+<sec:authorize access="hasRole('ROLE_USER')">
 <a href="<c:url value="/member/view?userId=${user.username}"/>">마이페이지</a><br>
 <a href="<c:url value="hr/list"/>">인사 관리</a>
+</sec:authorize>
+<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTER')">
+<a href="<c:url value="member/list"/>">회원 목록 관리</a>
+</sec:authorize>
 <form action="${pageContext.request.contextPath}/logout" method="post">
 <input type=submit value="로그아웃">
 </form></sec:authorize>

@@ -4,10 +4,12 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -18,7 +20,16 @@
 location="classpath:db/jdbc.properties"/>
 
 
+<security:authentication-manager>
+<security:authentication-provider>
+	<security:user-service>
+		<security:user name="master2" password="master2" authorities="ROLE_MASTER"/>
+	</security:user-service>
+</security:authentication-provider>
+</security:authentication-manager>
 <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+<bean id="memberAuthenticationProvider" class="spring.jh.myapp.member.auth.MemberAuthenticationProvider">
+</bean>
 
 <!-- DATA BASE -->
 <bean id="dataSource"
@@ -60,4 +71,12 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</property>
 </bean>
 
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<property name="dataSource" ref="dataSource"/>
+<property name="mapperLocations" value="classpath:/spring/jh/myapp/**/*.xml" />
+</bean>
+
+<mybatis-spring:scan base-package="spring.jh.myapp.hr.dao" />
+<mybatis-spring:scan base-package="spring.jh.myapp.file.dao" />
+<mybatis-spring:scan base-package="spring.jh.myapp.member.dao" />
 </beans>

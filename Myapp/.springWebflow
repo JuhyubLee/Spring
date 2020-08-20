@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.13.202004191628-CI-B2465]]></pluginVersion>
+	<configs>
+		<config>
+			<file>src/main/webapp/WEB-INF/spring/spring-security.xml</file>
+			<name><![CDATA[spring-security]]></name>
+		</config>
+	</configs>
+</webflow-project-description>

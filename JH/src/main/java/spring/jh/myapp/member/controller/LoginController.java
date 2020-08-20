@@ -23,16 +23,19 @@ public class LoginController {
 	@Autowired
 	IMemberService memberService;
 	
+	// LOGIN
 	@GetMapping("/login")
 	public void login(Model model) {
 	}
 	
+	// LOGOUT
 	@PostMapping("/logout")
 	public String logout(Model model, HttpSession session) {
 		session.invalidate();
-		return "redirect:/login";
+		return "redirect:/";
 	}
 	
+	// Login Check
 	@RequestMapping("/loginCheck")
 	public String loginCheck(Model model, HttpSession session) {
 		Authentication authentication =

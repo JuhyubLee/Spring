@@ -12,7 +12,7 @@
 <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal">
+<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal" onsubmit="addId();">
 <table border="1">
 <tr>
 <th>Id</th>
@@ -29,7 +29,8 @@
 <c:set var="len" value="${fn:length(file.fileName)}"/>
 <c:set var="fileType" value="${fn:toUpperCase(fn:substring(file.fileName, len-4, len))}" />
 <tr>
-<td><input type=checkbox name=fileIds value="${file.fileId}">${file.fileId}</td>
+<td><input type=checkbox name=fileIds value="${file.fileId}">${file.fileId}
+	<input type=hidden name=userId value="${file.userId}"></td>
 <td>${file.directoryName}</td>
 <td>${file.userId}</td>
 <td>
@@ -51,7 +52,7 @@
 <td>${file.fileContentType}</td>
 <td>${file.fileUploadDate}</td>
 <td>
-<a href='<c:url value="/file/delete/${file.fileId}" />' class="delete">삭제</a>
+<a href='<c:url value="/file/delete/${file.fileId}?userId=${file.userId}" />' class="delete">삭제</a>
 </td>
 </tr>
 </c:forEach>
@@ -63,6 +64,7 @@
 <option value="/spring">스프링
 <option value="/commons">공통
 </select>로 <input type=submit value="이동"><p>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <a href='<c:url value="/file/new" />'>업로드</a>
 </form>
 <script type="text/javascript">
@@ -75,6 +77,15 @@ return false;
 }
 })
 });
+function addId(){
+	check_length = document.getElementsByname("fileIds").length;
+		for(var i=0; i<check_length; i++){
+			if(document.getElementByName("fileIds")[i].checked == false){
+				document.getElementsByName("userId")[i].disabled = "disabled";
+			}
+		} 
+		return true;
+};
 </script>
 </body>
 </html>

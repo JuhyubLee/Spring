@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+<bean id="objectMapper"
+	class="com.fasterxml.jackson.databind.ObjectMapper" />
+<websocket:handlers>
+<websocket:mapping handler="chatHandler" path="websocket/chat.do"/>
+<websocket:sockjs/>
+</websocket:handlers>
+<bean id="chatHandler"
+	class="spring.jh.myapp.websocket.handler.ChatHandler"/>
+
+<websocket:handlers>
+<websocket:mapping handler="multiChatRoomHandler" path="multichat/chat.do"/>
+<websocket:sockjs/>
+</websocket:handlers>
+<bean id="multiChatRoomHandler"
+	class="spring.jh.myapp.websocket.handler.MultiChatRoomHandler"/>
+
+<mvc:view-controller path="/websocket/chat" view-name="/websocket/chat" />
+</beans>

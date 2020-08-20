@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.jh.myapp.hr.dao.IEmpService;
 import spring.jh.myapp.hr.model.EmpVO;
 
-@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER') or hasAnyRole('ROLE_ADMIN')")
 @Controller
 @RequestMapping("/hr")
 public class EmpController {
@@ -110,16 +109,17 @@ public class EmpController {
 		empService.updateEmp(emp);
 		return "redirect:/hr/"+emp.getEmployeeId();
 	}
-	// ERROR
-	@ExceptionHandler(RuntimeException.class)
-	public String runtimeException(HttpServletRequest request, Exception ex, Model model){
-		model.addAttribute("url", request.getRequestURI());
-		model.addAttribute("exception", ex);
-		return "error/runtime";
-	}
+	/*
+	 * // ERROR
+	 * 
+	 * @ExceptionHandler(RuntimeException.class) public String
+	 * runtimeException(HttpServletRequest request, Exception ex, Model model){
+	 * model.addAttribute("url", request.getRequestURI());
+	 * model.addAttribute("exception", ex); return "error/runtime"; }
+	 */
 	
 	// DELETE METHOD
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@GetMapping("/delete")
 	public String deleteEmp(int empId, Model model) {
 		model.addAttribute("emp", empService.getEmpInfo(empId));
@@ -127,7 +127,7 @@ public class EmpController {
 	}
 	
 	// AUTHORIZE
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@PostMapping("/delete")
 	public String deleteEmp(Model model, int empId) {
 		empService.deleteEmp(empId);

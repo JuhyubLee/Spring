@@ -20,6 +20,7 @@ public class FileRepository implements IFileRepository{
 @Qualifier("jdbcTemplate")
 JdbcTemplate jdbctemplate;
 
+	// FILE MAPPER
 	RowMapper<FileVO> fileMapper = new RowMapper<FileVO>() {
 		@Override
 		public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException{
@@ -35,12 +36,14 @@ JdbcTemplate jdbctemplate;
 		}
 	};
 
+	
 	@Override
 	public int getMaxFileId() {
 		String sql = "select nvl(max(file_id),0) from files";
 		return jdbctemplate.queryForObject(sql, Integer.class);
 	}
 
+	// FILE UPLOAD
 	@Override
 	public void uploadFile(FileVO file) {
 		String sql = "insert into files (file_id, directory_name, file_name, "
@@ -50,10 +53,11 @@ JdbcTemplate jdbctemplate;
 				file.getFileSize(), file.getFileContentType(), file.getFileData(), file.getUserId());
 	}
 
+	// GET FILE
 	@Override
 	public FileVO getFile(int fileId) {
 		String sql = "select file_id, directory_name, file_name,"
-				+ "file_size, file_content_type, file_upload_date, file_data, userid "
+				+ "file_size, file_content_type, file_upload_date, file_data, userId "
 				+ "from files where file_id=?";
 		return jdbctemplate.queryForObject(sql, new RowMapper<FileVO>() {
 			@Override
@@ -66,17 +70,20 @@ JdbcTemplate jdbctemplate;
 				file.setFileContentType(rs.getString("file_content_type"));
 				file.setFileUploadDate(rs.getTimestamp("file_upload_date"));
 				file.setFileData(rs.getBytes("file_data"));
+				file.setUserId(rs.getString("userId"));
 				return file;
 			}
 		}, fileId);
 	}
 
+	// DELETE FILE
 	@Override
 	public void deleteFile(int fileId) {
 		String sql = "delete from files where file_id=?";
 		jdbctemplate.update(sql, fileId);
 	}
 	
+	// GET FILE LIST
 	@Override
 	public List<FileVO> getFileList(String directoryName) {
 		String sql = "select file_id,directory_name,file_name,"
@@ -87,6 +94,7 @@ JdbcTemplate jdbctemplate;
 		return jdbctemplate.query(sql, fileMapper,directoryName);
 	}
 	
+	// GET ALL FILE LIST
 	@Override
 	public List<FileVO> getAllFileList() {
 		String sql = "select file_id, directory_name, file_name, "
@@ -95,14 +103,15 @@ JdbcTemplate jdbctemplate;
 		return jdbctemplate.query(sql, fileMapper);
 	}
 	
+	// UPDATE DIRECTORY
 	@Override
 	public void updateDirectory(HashMap<String, Object> map) {
 		String sql = "update files set directory_name=? where "
 				+ "file_id=?";
-		jdbctemplate.update(sql, map.get("directoryName"),
-				map.get("fileId"));
+		jdbctemplate.update(sql, map.get("directoryName"), map.get("fileId"));
 	}
 	
+	// UPDATE FILE
 	@Override
 	public void updateFile(FileVO file) {
 		String sql = "update files set directory_name=?, file_name=?,"

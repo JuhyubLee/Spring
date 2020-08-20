@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import spring.jh.myapp.file.model.FileVO;
@@ -11,8 +12,9 @@ import spring.jh.myapp.file.model.FileVO;
 @Service
 public class FileService implements IFileService {
 
-	@Autowired
-	IFileRepository fileRepository;
+@Autowired
+@Qualifier("IFileRepository")
+IFileRepository fileRepository;
 	
 	// FILE UPLOAD
 	@Override

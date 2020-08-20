@@ -16,6 +16,7 @@
 <c:when test="${message eq 'right'}">
 <h3>정말 삭제하시겠습니까?</h3>
 <form action="delete" method="post">
+<input name="userId" type=hidden value=${mem.userId}>
 <input type=submit value="정보 삭제">
 <input type="button" value="취소" onclick="history.back(-1);">
 </form>

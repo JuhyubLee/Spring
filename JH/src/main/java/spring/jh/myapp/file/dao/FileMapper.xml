@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.jh.myapp.file.dao.IFileRepository">
+<resultMap  id="FileMap" type="spring.jh.myapp.file.model.FileVO">
+<result property="fileId" column= "file_Id" />
+<result property="directoryName" column="directory_name" />
+<result property="fileName" column="file_name" />
+<result property="fileSize" column="file_size" />
+<result property="fileContentType" column="file_content_type" />
+<result property="fileUploadDate" column="file_upload_date" />
+<result property="fileData" column="file_data" />
+<result property="userId" column="userId" />
+</resultMap>
+
+<select id="getMaxFileId" resultType="int">
+select nvl(max(file_id),0)
+ from files
+</select>
+
+<insert id="uploadFile" parameterType="spring.jh.myapp.file.model.FileVO">
+insert into files 
+values(#{fileId}, #{directoryName}, #{fileName}, #{fileSize}, #{fileContentType}, SYSDATE, #{fileData}, #{userId})
+</insert>
+
+<select id="getFile" resultType="spring.jh.myapp.file.model.FileVO">
+select file_id as fileId, directory_name as directoryName, file_name as fileName, file_size as fileName, 
+file_size as fileName, file_content_type as fileContentType, file_upload_date as fileUploadDate, 
+file_data as fileData, userId 
+from files 
+where file_id = #{fileId}
+</select>
+
+<delete id="deleteFile" parameterType="int">
+delete from files 
+where file_id = #{fileId}
+</delete>
+
+<select id="getFileList" resultType="spring.jh.myapp.file.model.FileVO">
+select file_id as fileId, directory_name as directoryName, file_name as fileName, 
+file_size as fileSize, file_content_type as fileContentType, file_upload_date as fileUploadDate, 
+userId 
+from files 
+where directory_name=#{directoryName} 
+order by file_upload_date desc
+</select>
+
+<select id="getAllFileList" resultType="spring.jh.myapp.file.model.FileVO">
+select file_id as fileId, directory_name as directoryName, file_name as fileName, 
+file_size as fileSize, file_content_type as fileContentType, file_upload_date as fileUploadDate, 
+userId 
+from files
+order by file_upload_date desc
+</select>
+<update id="updateDirectory" parameterType="java.util.HashMap">
+update files 
+set directory_name = #{directoryName} 
+where file_id = #{fileId}
+</update>
+
+<update id="updateFile" parameterType="spring.jh.myapp.file.model.FileVO">
+update files 
+set directory_name=#{directoryName}, file_name=#{fileName}, file_size=#{fileSize}, 
+file_content_type=#{fileContentType}, file_data=#{fileData} 
+where file_id = #{fileId}
+</update>
+
+
+</mapper>
