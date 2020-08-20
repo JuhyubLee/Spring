@@ -39,7 +39,6 @@ INDEX VERSION 1.131+C:\Users\scall\OneDrive\바탕 화면\프로그래밍\Spring
 699338746.index
 2831726757.index
 3507152366.index
-1609623529.index
 3011599712.index
 780230459.index
 2155685345.index
